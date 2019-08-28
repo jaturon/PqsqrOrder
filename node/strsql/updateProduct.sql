@@ -1,0 +1,1 @@
+update sto_product SET Model = ? , Name = ?  , UnitID = ?, TypeID = ? , Image=? ,UpdateDate = ?

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+<style>
+body {
+    font-family: "Lato", sans-serif;
+	  padding: .5rem .5rem;
+
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 998;
+    display: none;
+}
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Title</span>
+
+    <main role="main" class="container">
+
+      <!--div class="container">
+		<div class="form-group form-row">
+			   <div class="col form-inline">
+			     <label for="usr" class="col-sm-2 col-form-label" >Name: </label>
+				 <input type="text" class="col-sm-9  form-control" id="usr">
+			   </div>
+			   <div class="col form-inline">
+			     <label for="age"class="col-sm-2 col-form-label">Age: </label>
+				 <input type="text" class="col-sm-10 form-control" id="age">	
+			</div>
+      </div-->
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <input type="email" class=" form-control" id="inputEmail4" placeholder="Name">
+    </div>
+    <div class="form-group col-md-6">
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Age">
+    </div>
+  </div>
+
+	  <div class="form-row">
+         <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+		 <div class="input-group col-sm-10 mb-3">
+			 <input type="text" class="form-control" name="inputEmail3">
+			 <div class="input-group-append">
+				<span class="input-group-text" id="basic-addon2">select</span>
+			 </div>
+		 </div>
+	  </div>
+
+	  <div class="form-group row">
+         <label for="pd" class="col-sm-2 col-form-label">Product :</label>
+		 <div class="input-group col-sm-10 mb-3">
+			 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+		 </div>
+	  </div>
+
+	<fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+          <label class="form-check-label" for="gridRadios1">
+            First radio
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+          <label class="form-check-label" for="gridRadios2">
+            Second radio
+          </label>
+        </div>
+        <div class="form-check disabled">
+          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
+          <label class="form-check-label" for="gridRadios3">
+            Third disabled radio
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+<div class="form-group row">
+    <div class="col-sm-2">Checkbox</div>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck1">
+        <label class="form-check-label" for="gridCheck1">
+          Example checkbox
+        </label>
+      </div>
+    </div>
+  </div>
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+<div class="form-row container">
+<span></span>
+  <div class="form-inline"><input type="file" style="display:none" />
+    <input class="form-control mr-sm-2" type="search" placeholder="File" aria-label="File">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </div>
+</div>
+</nav>
+
+<div class="list-group">
+
+	<div class="list-group-item list-group-item-action flex-column align-items-start active">
+	<div class="d-flex w-100 justify-content-between">
+	<h5 class="mb-1"><img src="" />File Name</h5>
+	<small><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Delete</button></small>
+	</div>
+	<!--small>Some small text here.</small-->
+	</div>
+
+	<div class="list-group-item list-group-item-action flex-column">
+	<div class="d-flex w-100 justify-content-between">
+	<h5 class="mb-1"><img src="" />File Name</h5>
+	<small><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Delete</button></small>
+	</div>
+	<!--small>Some small text here.</small-->
+	</div>
+
+	<div class="list-group-item list-group-item-action flex-column">
+	<div class="d-flex w-100 justify-content-between">
+	<h5 class="mb-1"><img src="" />File Name</h5>
+	<small><button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Delete</button></small>
+	</div>
+	<!--small>Some small text here.</small-->
+	</div>
+
+</div>
+
+    </main><!-- /.container -->
+	
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+
+<div class="overlay" onClick="closeNav();"></div>
+<script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+                    $('.overlay').fadeIn();
+
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+	                    $('.overlay').fadeOut();
+
+}
+</script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+   <script src="/jquery/jquery.js"></script>
+   <script src="/popper/popper.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html> 

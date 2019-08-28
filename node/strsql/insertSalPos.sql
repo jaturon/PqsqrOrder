@@ -1,0 +1,1 @@
+insert into sal_pos(docno, saledate, memberID, memberTypeID , MemberCode, paymethod, totalPrice, BranchID, RecieveMoney, ChangeMoney, CreateBy, CreateDate) value (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)

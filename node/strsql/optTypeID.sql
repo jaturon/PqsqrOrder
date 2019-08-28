@@ -1,0 +1,1 @@
+select ID, name from sto_product_type

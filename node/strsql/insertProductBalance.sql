@@ -1,0 +1,1 @@
+insert into sto_balance(Qty, UpdateDate ,branchID, Product) value (? , ? , ? , ?) 

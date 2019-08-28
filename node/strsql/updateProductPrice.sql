@@ -1,0 +1,1 @@
+update sto_product_attr set {Price}=? , UpdateDate = ?

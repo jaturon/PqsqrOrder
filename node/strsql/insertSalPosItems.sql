@@ -1,0 +1,1 @@
+insert into sal_pos_items(ownerID, OwnerNo, Product, Price , Qty) value (? , ? , ? , ? , ?)

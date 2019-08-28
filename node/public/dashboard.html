@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>PQS DashBoard Foodstore</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+</head>
+<body class="fixed-sn light-blue-skin">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark double-nav  fixed-top scrolling-navbar">
+            <div class="breadcrumb-dn mr-auto">
+                <p>ห้องครัว</p>
+            </div>
+		</nav>
+    </header>
+    <main>
+		<div class="container-fluid">
+				<div id="KitchenDesk" />
+		</div>
+	</main>
+
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+     <!-- JSDateTime JavaScript -->
+	<script type="text/javascript" src="js/JSDateTime.js"></script>
+	 <script src="js/socket.io.js"></script>
+
+	 <script language="javascript">
+			  $(function () {
+				   var socket = io.connect('http://'+window.location.hostname+':3031');
+				   socket.on('connect' , function() {						
+						$("#socketID").val(socket.io.engine.id);
+						socket.emit('ServerorderHistory', {id : socket.io.engine.id });
+				   });		
+				   				  
+				   $('#KitchenDesk').append('<h2 align="center">รายการอาหารที่สั่ง</h2>');
+					
+					socket.on( 'orderHistory' , function(h) {
+					//alert(h.id);
+					//alert($("#socketID").val())
+					if(h.id==$("#socketID").val()){
+						$.each( h, function( k, item ) {
+						if(typeof item === "object") {
+						 
+						 $('#KitchenDesk').append('<li id="'+item.table+'-'+item.code+'" onClick="line(this)">' + item.table.replace("table", "โต๊ะ") + " - " + item.food + item.qty + item.unit+ '</li>');
+					
+						}					
+						});
+						}
+					});
+					
+
+					socket.on('orderFood' , function(order){
+					   if($('#KitchenDesk').find('#'+order.table+'-'+order.code).html()==undefined){
+					  $('#KitchenDesk').append('<li id="'+order.table+'-'+order.code+'" onClick="line(this)">' + order.table.replace("table", "โต๊ะ") + " - " + order.food + order.qty + order.unit+ '</li>');
+					  } else {
+					  $('#KitchenDesk').find('#'+order.table+'-'+order.code).html(order.table.replace("table", "โต๊ะ") + " - " + order.food + order.qty + order.unit);
+					  
+					  }
+					});
+			  });
+			  function line(o) {
+				$(o).css('text-decoration', 'line-through');
+			  }
+</script>
+<input type="hidden" id="socketID" />
+</body>
+</html>

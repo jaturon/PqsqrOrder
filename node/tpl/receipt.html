@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>ใบเสร็จรับเงิน</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+<div align="center">
+ <b>{BranchName}</b><br/>
+	{BranchPhone} <br/>
+</div>
+<table width="100%"  border="0" cellspacing="1" cellpadding="2">
+    <tr>
+      <td nowrap>เลขที่   :</td>
+      <td align="right" nowrap>{DocNo}</td>
+	</tr>
+	<tr>
+      <td nowrap>วันที่ :</td>
+      <td align="right" nowrap> {SaleDate}</td>
+    </tr>
+ </table>
+ <table width="100%"  border="0" cellspacing="1" cellpadding="1">
+    <tr>
+      <td height="" colspan="3" align="left" nowrap bgcolor="#000000"></td>
+    </tr>
+    <tr>
+      <td align="left" scope="col">รายละเอียดสินค้า</td>
+      <td align="right" scope="col">จำนวน</td>
+      <td align="right" scope="col">รวมเงิน</td>
+    </tr>
+    <tr>
+      <td height="" colspan="3" align="left" nowrap bgcolor="#000000"></td>
+    </tr>
+	{receiptDetails}
+	<tr>
+      <td height="" colspan="3" align="left" nowrap bgcolor="#000000"></td>
+    </tr>
+  </table>
+<table width="100%"  border="0" cellspacing="1" cellpadding="2">
+  <tr id="ShowTotal">
+    <td align="right" nowrap>รวมเงิน</td>
+    <td width="80" align="right" nowrap>{DocTotalPrice} บาท</td>
+  </tr>
+  <tr><td align="right" nowrap>รับมา</td>
+    <td align="right" nowrap>{RMoney} บาท
+	</td></tr>
+  <tr><td align="right" nowrap>ทอน</td>
+    <td align="right" nowrap>{CMoney} บาท</td></tr>
+</table>
+</body>
+</html>

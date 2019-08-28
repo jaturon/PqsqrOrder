@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Full Slider </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+
+	    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="style.css" rel="stylesheet">
+	<link href="../css/icon.css" rel="stylesheet">
+	<link href="../css/material.indigo-pink.min.css" rel="stylesheet">
+<style type="text/css">
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #b3d4fc;
+}
+
+.users-list-card {
+  margin: 25px;
+  flex: 1 1 100%;
+  max-width: 448px;
+}
+
+.users-list-card > .mdl-list {
+  margin: 0;
+  padding: 0 32px;
+}
+
+.users-list-card > .mdl-list > .mdl-list__item {
+  padding: 0;
+}
+
+.users-list-card > .mdl-list > .mdl-list__item .mdl-textfield {
+  padding: 0;
+}
+
+.users-list-card > .mdl-list > .mdl-list__item .mdl-textfield .mdl-textfield__input {
+  border: none;
+  top: 0;
+}
+
+.users-list-card > .mdl-card__supporting-text > .mdl-list {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.mdl-list__item-avatar {
+  background: url("https://unsplash.it/200?random") no-repeat center center;
+  background-size: cover;
+}
+</style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav id="menu" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"> &nbsp;</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+		  	<li  class="nav-item"><input id="tnum" /><a class="navbar-brand" href="javascript:gentables()">gen tables</a</li>
+			<li  class="nav-item"><a class="navbar-brand" href="javascript:#" onClick="return closeMe();">Close</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section id="SECTIONQR"  style="margin-top:100px" >
+		  <div id="containerQr" class="container">
+  			</div>
+    </section>
+    <!-- Page Content -->
+    <input type="hidden" id="ip" />
+	<footer>
+    <!-- Footer -->
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../js/qrcode.js"></script>
+	<script src="../js/jquery.fullscreen.min.js"></script>
+	<script language="javascript">
+	   function closeMe() {
+		  if(window.location.hostname=="localhost"){
+			$.post('http://'+window.location.hostname+':3030/closeBrowser', function( data ){
+			
+					})
+		   }
+			 	daddy = window.parent.self;
+				daddy.opener = window.parent.self;
+				daddy.close(); 
+			}
+
+			
+		  $.post('http://'+window.location.hostname+':3030/getIPs', function( data ) {
+			$("#ip").val(data[data.length-1].split(":")[1]);
+			/*
+			for (i=0;i<4 ;i++ )
+			{
+			
+			var qrcode = new QRCode(document.getElementById("qrcode"+(i+1)), {
+				width : 200,
+				height : 200				
+			});
+			qrcode.makeCode("http://"+data[data.length-1].split(":")[1]+":3030/shop/?code=&mode=shop&tbn="(i+1));
+			}
+			*/
+			});
+			
+function gentables(){
+		$("#containerQr").html("");
+		var tnum = $("#tnum").val();
+		//alert(tnum);
+		var rn = Math.floor((tnum/4))+ (((tnum % 4)!=0)?1:0);
+		for (j=0;j<rn ;j++ ) {
+				$("#containerQr").append("<div id='r"+j+"' class='row'></div>");
+
+			for (i=0;i<4 ;i++ )
+			{
+				if((i+1)+(j*4)<=tnum){
+				$("#r"+j).append('<div class="col-3 col-md-3"><div id="qrcode'+((i+1)+(j*4))+'"></div><div>โต๊ะที่ '+((i+1)+(j*4))+'</div></div>');
+
+			var qrcode = new QRCode(document.getElementById("qrcode"+((i+1)+(j*4))), {
+				width : 200,
+				height : 200				
+			});
+			qrcode.makeCode("http://"+$("#ip").val()+":3030/shop/?code=&mode=shop&tbn="+((i+1)+(j*4)));
+			}
+			}
+			}
+
+	}
+
+
+$(document).ready(function() {
+
+    // This WILL work because we are listening on the 'document', 
+    // for a click on an element with an ID of #test-element
+  // Set User Mamager
+	//		$("#carouselExampleIndicators").trigger("click");
+});
+
+
+	</script>
+
+  </body>
+
+</html>

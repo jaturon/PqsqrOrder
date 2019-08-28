@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<meta name="description" content="POS Product Control">
+<meta name="author" content="Pqsoft">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<!--link rel="stylesheet" href="./css/themes/default/jquery.mobile-1.4.5.min.css"-->
+<link rel="stylesheet" href="./jquery-mobile/jquery.mobile.css">
+<!--link rel="stylesheet" href="./jquery-mobile/theme-classic.css"-->
+<link rel="stylesheet" href="css/editable-listview.css">
+<link rel="stylesheet" href="css/jquery.nailthumb.1.1.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <!--link href="css/mdb.min.css" rel="stylesheet"-->
+    <!-- Your custom styles (optional) -->
+    <link href="shop/style.css" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+	<link href="css/icon.css" rel="stylesheet">
+	<link href="css/material.indigo-pink.min.css" rel="stylesheet">
+	<link href="css/dialog-polyfill.min.css"  rel="stylesheet">
+
+
+
+<style>
+
+.view {
+  position: relative;
+  overflow: hidden;
+  cursor: default; }
+  .view .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed; }
+  .view img, .view video {
+    position: relative;
+    display: block; }
+  .view video.video-intro {
+    z-index: -100;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transition: 1s opacity;
+    -o-transition: 1s opacity;
+    transition: 1s opacity;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto; }
+
+
+.material-switch > input[type="checkbox"] {
+  display: none;
+}
+
+.material-switch > label {
+  cursor: pointer;
+  height: 0px;
+  position: relative;
+  top: 2px;
+  width: 40px;
+}
+
+.material-switch > label::before {
+  background: rgb(0, 0, 0);
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  content: '';
+  height: 16px;
+  margin-top: -8px;
+  position: absolute;
+  opacity: 0.3;
+  transition: all 0.4s ease-in-out;
+  width: 40px;
+}
+
+.material-switch > label::after {
+  background: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  content: '';
+  height: 24px;
+  left: -4px;
+  margin-top: -8px;
+  position: absolute;
+  top: -4px;
+  transition: all 0.3s ease-in-out;
+  width: 24px;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::before {
+  background: inherit;
+  opacity: 0.5;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::after {
+  background: inherit;
+  left: 20px;
+}
+
+.register.mdl-dialog {
+  width: 320px;
+  height: 450px;
+}
+
+.register > .mdl-dialog__title {
+  color: #fff;
+  background:
+    url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
+}
+
+.register >card {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	overflow: hidden;
+	backface-visibility: hidden;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 260px;
+	background-color: @light-color;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 3px 4px 0 fade(@darker-color, 14%),
+              0 3px 3px -3px fade(@darker-color, 20%),
+              0 2px 8px 0 fade(@darker-color, 12%);
+}
+
+
+.card__content {
+	padding: 16px;
+	color: @dark-color;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+
+/* Card action area */
+
+.card__action {
+	display: flex;
+	padding: 8px;
+
+	& + & { padding-top: 0; }
+}
+
+.inputfield {
+	position: relative;
+	padding: 20px 0;
+}
+
+/* Inputfield input */
+
+.inputfield__input {
+	display: block;
+	padding: 4px 0;
+	width: 100%;
+	color: inherit;
+	font-size: 16px;
+	line-height: 21px;
+	background-color: transparent;
+	border: 0 solid fade(@darker-color, 12%);
+	border-bottom-width: 1px;
+}
+
+.inputfield__label {
+	position: absolute;
+	top: 24px;
+	left: 0;
+	color: @darker-color;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 21px;
+	pointer-event: none;
+	transition: all .28s ease-in-out;
+}
+
+.inputfield.is-dirty .inputfield__label,
+.inputfield__input:focus ~ .inputfield__label {
+	top: 0;
+	font-size: 12px;
+	font-weight: 500;
+	transition-duration: .14s;
+}
+
+.inputfield.is-dirty .inputfield__label { color: #757575;}
+
+.inputfield__input:focus ~ .inputfield__label { color: @secondry-color; }
+
+/* Inputfield under-line */
+
+.inputfield__underline {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	right: 50%;
+	height: 2px;
+	background-color: @secondry-color;
+	transition: all .28s ease-in-out;
+}
+
+.inputfield__input:focus ~ .inputfield__underline {
+	left: 0%;
+	right: 0%;
+	transition-duration: .21s;
+}
+
+.mdl-list__item-avatar {
+  background: url("https://unsplash.it/200?random") no-repeat center center;
+  background-size: cover;
+}
+
+
+</style>
+
+  <script src="./jquery/jquery.js"></script>
+  <script src="js/jquery.nailthumb.1.1.min.js"></script>
+  <script src="./jquery-mobile/jquery.mobile.js"></script>
+  <script src="js/collapsible-patched.js"></script>
+  <script src="js/editable-listview.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script language="javascript"> </script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <!--script type="text/javascript" src="js/mdb.min.js"></script-->
+  <!-- JSDateTime JavaScript -->
+	<script type="text/javascript" src="js/JSDateTime.js"></script>
+  <!-- Material Design JavaScript -->
+	<script defer src="js/material.min.js"></script>
+	<script src="js/dialog-polyfill.min.js"></script>
+
+</head>
+<body>
+<div class="jqm-demos ui-responsive-panel" data-role="page" data-theme="a">
+	<div data-position="fixed" data-role="header">
+		<!--img src="images/logo.jpg"style="float:left" /-->
+		<h1>สินค้า</h1>
+		 <a href="#nav-panel" data-icon="bars" data-iconpos="notext">เมนู</a>
+		 <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+		<a class="ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" href="#" onClick="delData()" id="delButton" name="delButton">&nbsp;</a>
+		<a class="ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-edit" href="#" onClick="saveData()" id="saveButton" name="saveButton">&nbsp;</a>
+		</div>
+	</div><!-- /header -->
+	<div role="main" class="ui-content" id="manage">
+		<div data-theme="a" data-content-theme="b">
+			  <div class="ui-field-contain">
+				<label for="barcode">บาร์โค๊ด:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="barcode" id="barcode" value=""  />		
+				</div>
+				<a href="zxing://scan/?ret=http://apps:3030/desc.html?code={CODE}" data-icon="gear" class="ui-btn ui-search-flex-item-right ui-editable-border-right ui-btn-icon-notext  ui-icon-search " style="height: 60px" id="scan" name="scan">  </a>
+			    </div>
+
+				<label for="model">รหัส:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="model" id="model" value=""  />		
+				</div>
+				</div>
+
+				<label for="name">ชื่อ:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="name" id="name" value=""  />		
+				</div>
+				</div>
+
+
+    <!--label for="desc">รายละเอียด:</label>
+    <textarea name="detail" id="detail" rows="8" cols="40"></textarea-->
+
+				<label for="price">ราคา:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="number" name="price" id="price" value=""  />		
+						<div class="ui-btn-right ui-btn ui-btn-inline ui-mini " >บาท</div>
+				</div>
+				</div>
+
+				<label for="qty">สต๊อก:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="number" name="qty" id="qty"  value=""  />		
+				</div>
+				</div>		
+		<label for="dbFile">รูป:</label>
+		<ul data-role="listview" id="fileContainer" name="fileContainer" data-inset="true" data-split-icon="delete">
+		<li id="FileBrowse" name="FileBrowse" > Files  <div class="ui-btn ui-btn-icon-notext  ui-icon-camera ui-btn-right" style="top:0px" onClick="getImage()" / ><input type="file" name="dbFile" id="dbFile"  style="display:none" onChange="readImage( this )" /> </li>
+		</ul>
+
+
+
+		</div>
+		<div id="nav-panel" data-role="panel" data-theme="a" data-display="push">
+				<ul data-role="listview">
+					<li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
+					<li><a href="#panel-responsive-page2">Menu</a></li>
+				</ul>
+		</div>
+</div>
+</div> <!-- /content -->
+
+	<div role="main" class="ui-content" id="watch" style="display:none">
+		<div data-theme="a" data-content-theme="b" class="container-fluid">
+
+		            <!--Section: Table-->
+            <section class="mb-5" id="ctCart">
+
+                <!--Top Table UI-->
+                <div class="card p-2 mb-5">
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div  class="col-12 col-md-8">
+						<fieldset class="form-group">
+<select class="mdb-select colorful-select dropdown-primary mx-2" id="ProductType" name="ProductType" onChange="queryProduct(this);">
+                                <option value="" disabled selected>หมวดสินค้า</option>
+                                <option value="0">ทั้งหมด</option>
+                            </select>
+							</fieldset>
+                            <!--/Blue select-->
+
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                </div>
+                <!--Top Table UI-->
+
+       <!--Grid row-->
+        <div class="row wow fadeIn" id="gridRow">
+
+		</div>
+                      <div class="card p-2 mb-5">  
+					        <div class="row">
+								<div class="col-md-12 mb-3">
+									<button class="float-right btn blue-gradient btn-rounded" onClick="getMoreProduct()">More</button>
+								</div>
+							</div>
+					 </div>
+			</section>
+			<!--Section: Table-->
+
+
+
+		</div>
+	</div>
+
+<div id="nav-panel" data-role="panel" data-theme="a" data-display="push">
+        <ul data-role="listview">
+            <li data-icon="delete"><a href="#" data-rel="close">ข้อมูลพื้นฐาน</a></li>
+			<li> สาขา: <div align="right" class="ui-btn-right"> <span onClick="$.mobile.changePage( '#branchData', { role: 'dialog' } );"class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-notext " >  </span></div> <select id="branchID"> </select></li>
+			<li> หมวด: <div align="right" class="ui-btn-right"> <span onClick="$.mobile.changePage( '#selectPDType', { role: 'dialog' } );"class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-notext " >  </span></div> <select id="typeID" onChange="if(this.value!=''){setCookie('typeID',this)}"> </select></li>
+
+			<li> ราคาที่: <select id="optionPrice" onChange="setCookie('optionPrice',this)">
+			<option value="1"> Price1 </option>
+			<option value="2"> Price2 </option>
+			<option value="3"> Price3 </option>
+			<option value="4"> Price4 </option>
+			</select></li>
+			
+			<li> หน่วย: <div align="right" class="ui-btn-right"> <span onClick="$.mobile.changePage( '#selectPDUnit', { role: 'dialog' } );"class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-notext " >  </span></div><select id="unitID" onChange="if(this.value!=''){setCookie('unitID',this)}"> </select></li>
+
+		</ul>
+</div>
+
+	<div data-role="footer" data-position="fixed" class="footer-docs" data-theme="a">
+		<div data-role="navbar" data-iconpos="bottom">
+            <ul>
+                <li><a class="ui-btn-active" href="#" onClick="swithTabs('manage')" data-icon="gear">Manage</a></li>
+                <li><a href="#" data-icon="grid" onClick="swithTabs('watch')" >Watch</a></li>
+            </ul>
+        </div><!-- /navbar -->
+			<p>&copy; 2018 by Pqsoft, POS QR ORDER <span id="version">(V1)</span></p>
+	</div>
+
+</div> <!-- page -->
+
+<div style="padding: 20px" data-role="page" id="selectPDType" data-theme="a">
+	<div id="sPDtypedata" tableName="sto_product_type" ></div>
+</div>
+
+
+<div style="padding: 20px" data-role="page" id="branchData" data-theme="a">
+	<div data-role="header">
+    <h1> ข้อมูลสาขา </h1>
+	</div>
+	<div id="branchDataContainer">
+				<label for="branchCode">รหัสสาขา:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="branchCode" id="branchCode" value=""  />	
+				</div>
+				</div>
+				<label for="branchName">สาขา:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="branchName" id="branchName" value="" onChange="branchDataChange()"  />		
+				</div>
+				</div>
+				<label for="branchAddress">ที่อยู่:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="branchAddress" id="branchAddress" value="" onChange="branchDataChange()" />		
+				</div>
+				</div>
+				<label for="branchPhone">เบอร์โทร:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="branchPhone" id="branchPhone" value="" onChange="branchDataChange()" />		
+				</div>
+				</div>
+				<label for="branchSaleNo">เลขที่ใบขายสินค้า:</label>
+				<div class="ui-editable-flex">
+				<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+				<input type="text" name="branchSaleNo" id="branchSaleNo" value="" onChange="branchDataChange()" />		
+				</div>
+				</div>
+	</div>
+</div>
+
+<!--Modal: SignUp -->
+<dialog id="dialogSignUp" class="register mdl-dialog">
+   <div class="mdl-dialog__title">
+    <i class="mdl-list__item-avatar"></i>
+    <h2 class="mdl-dialog__title-text">User</h2>
+  </div>
+		<div class="card">		
+		<div class="card__content">
+		<div class="inputfield">
+				<input class="inputfield__input" id="username" onChange="chkLabel(this)" name="username" type="text">
+				<label class="inputfield__label" for="username">ผู้ใช้งาน</label>
+				<span class="inputfield__underline" aria-hidden="true"></span>
+		</div>
+		<div class="inputfield">
+				<input class="inputfield__input" id="Phone" onChange="chkLabel(this)" name="Phone" type="text">
+				<label class="inputfield__label" for="Phone">เบอร์โทร</label>
+				<span class="inputfield__underline" aria-hidden="true"></span>
+		</div>
+		</div>
+		</div>
+  <div class="mdl-dialog__actions">
+    <button type="button" class="mdl-button" onClick="registerDevice()">ลงทะเบียน</button>
+  </div>
+</dialog>
+
+<!--end Modal SignUp -->
+
+<!--Modal: Wait Aith -->
+<dialog id="dialogWait" class="register mdl-dialog">
+   <div class="mdl-dialog__title">
+    <i class="mdl-list__item-avatar"></i>
+    <h2 class="mdl-dialog__title-text">รออนุมัติใช้งาน</h2>
+  </div>
+    <div class="mdl-dialog__actions">
+    <button type="button" class="mdl-button" onClick="location.reload();">Refresh</button>
+  </div>
+</dialog>
+
+
+
+<div style="padding: 20px" data-role="page" id="selectPDUnit" data-theme="a" >
+	<div id="sPDunitdata" tableName="sto_product_unit" ></div>
+</div>
+
+<img src="" id="tmp_img" onLoad="ResizeImage(this, 1024)" style="display:none" />
+<canvas id="tmp_canvas" style="display:none" />
+
+
+<!--input type="hidden" name="branchID" id="branchID"  value="1"  /-->
+<input type="hidden" name="oImage" id="oImage"  value=""  />
+<input type="hidden" name="option1ID" id="option1ID"  value="1"  />
+<input type="hidden" name="option2ID" id="option2ID"  value="2"  />
+<!--input type="hidden" name="optionPrice" id="optionPrice"  value="1"  /-->
+<input type="hidden" name="pagging" id="pagging" value="0" />
+<input type="hidden" name="pageInum" id="pageInum" value="6" />
+    </body>
+</html>
+	<script language="javascript">		
+var code = "";
+var mode = "";	
+var lis ="";
+var oDelOptions = {};
+var oAddOptions = {};
+var TableOptions = {}
+var fBranchChange = 0;
+TableOptions["หมวดหรือชนิดสินค้า"] = "sto_product_type";
+TableOptions["หน่วยนับสินค้า"] = "sto_product_unit";
+
+		function registerDevice(){
+						 var data = {};
+						 data.username= $("#username").val();
+						 data.Phone= $("#Phone").val();
+						 var body = {};
+						 body.data = data;						 
+						 $.ajax({
+								type: 'POST',
+								data:   JSON.stringify(body),
+								contentType: 'application/json',
+								url: 'http://'+window.location.hostname+':3030/regUUID',
+								success: function(data) {
+								//alert(data);
+								Storage.setItem("Pqs.id",data.id);
+								Storage.setItem("Pqs.username",data.username);
+								Storage.setItem("Pqs.Phone",data.Phone);
+								dialogSignUp.close();
+								location.reload();
+								if(data.status == 'auth'){
+								 
+								} else {
+
+								}
+								}
+						});						
+						}
+
+			  	var dialogSignUp = document.querySelector('#dialogSignUp');
+				           if (! dialogSignUp.showModal) {
+								dialogPolyfill.registerDialog(dialogSignUp);
+							}
+			  	var dialogWait = document.querySelector('#dialogWait');
+				           if (! dialogWait.showModal) {
+								dialogPolyfill.registerDialog(dialogWait);
+							}
+				var Storage = window.localStorage; 
+				if (typeof(Storage) == "undefined") {
+				alert("No Localstorage");
+				// Code for localStorage/sessionStorage.
+				} else {
+				// Sorry! No Web Storage support..
+				if(Storage.getItem("Pqs.id") == null){
+				//alert("first time");
+				dialogSignUp.showModal();
+				} else {
+				var id=Storage.getItem("Pqs.id");
+					$.post('http://'+window.location.hostname+':3030/UUIDAuthChk',{id: id}, function( data ) {
+						//alert(data); 
+					 
+					 if (data=='wait')
+					 {
+						dialogWait.showModal();
+					 } else if (data=='deleted')
+					 {
+						 localStorage.clear();
+						 location.reload();
+					 }
+					 
+					});
+				}
+				}
+
+				function chkLabel(o){
+					 if($(o).val()==''){
+						$(o).parent().find("label").css("z-index","");
+						 } else {
+						$(o).parent().find("label").css("z-index","-1")
+						}
+					}
+
+
+$(document).on('pagehide', '#branchData', function() { 
+	if ( fBranchChange == 1 )
+	{
+	
+    		   var data = {};
+			   data.ID = $("#branchID").val();
+			   data.Code = $("#branchCode").val();
+			   data.Name = $("#branchName").val();
+			   data.Phone = $("#branchPhone").val();
+			   data.Address = $("#branchAddress").val();
+			   data.SaleNo = $("#branchSaleNo").val();
+			   var body = {};
+			   body.data = data;
+                $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/updatebranchData',
+					success: function(data) {
+					
+					}
+					});
+}
+	 		
+			fBranchChange = 0;
+});
+
+function EdtPD(barcode){
+		        window.location.href = "pos_product.html?code="+barcode+"&mode=edit";
+
+	}
+
+function queryProduct(o){
+			//alert(o.options[o.selectedIndex].value+ " "+ $.cookie("ProductType"));
+			if(o.options[o.selectedIndex].value != $.cookie("ProductType")){
+					$("#pagging").val(0);
+					$("#gridRow").html("");
+					code="";
+					getProductItems(  $("#pagging").val(),  $("#pageInum").val() , code );
+				}
+
+
+			$.cookie("ProductType", o.options[o.selectedIndex].value);
+
+
+	}
+
+function swithTabs(name) {
+		if(name=="manage"){
+				$("#manage").css("display","block");
+				$("#watch").css("display","none");
+			} else {
+				$("#manage").css("display","none");
+				$("#watch").css("display","block");
+			}
+
+	}
+
+function branchDataChange(){
+		fBranchChange = 1;
+	}
+
+function getMoreProduct() {	
+					getProductItems(($("#pagging").val() +1)  * $("#pageInum").val(), $("#pageInum").val(), code);
+					$("#pagging").val(($("#pagging").val()*1) +1);
+		}
+
+ jQuery(document).ready(function() {    
+		 document.getElementById("scan").href="zxing://scan/?ret=http://"+window.location.hostname+":3030/pos_product.html?code={CODE}&mode=edit";
+	   if(window.location.search!="") {
+		var code =(window.location.search).split("=")[1].replace("&mode", "");
+
+		if(code==""){
+			mode="search";
+		} else {
+		    mode =(window.location.search).split("=")[2];
+		}
+
+		} else {
+			mode="search";
+		}
+
+
+
+				// set typeID Option
+		  $.post('http://'+window.location.hostname+':3030/optTypeID', function( data ) {
+			//alert(data);
+			$("#ProductType").append(data).trigger("refresh");
+			//$("#ProductType").material_select();
+	        });
+
+		getProductItems(  $("#pagging").val(),  $("#pageInum").val() , "" );
+
+
+
+		// set optionPrice
+		    if($.cookie("optionPrice")){
+			$("#optionPrice").val($.cookie("optionPrice")).change();
+			} else {$("#optionPrice").val(1).change(); }
+		// set branchID Option
+		  $.post('http://'+window.location.hostname+':3030/optBranchID', function( data ) {
+			$("#branchID").append(data).selectmenu("refresh", true);			
+			
+			}).done (function() {
+		// set branch Data
+		  $.post('http://'+window.location.hostname+':3030/getBranchData', {ID: $("#branchID").val()}, function( data ) {
+			   
+				$("#branchName").val(data.Name);
+				$("#branchAddress").val(data.Address);
+				$("#branchPhone").val(data.Phone);
+				$("#branchCode").val(data.Code);
+				$("#branchSaleNo").val(data.SaleNo);
+			});
+			});
+		
+		// set typeID Option
+		  $.post('http://'+window.location.hostname+':3030/optTypeID', function( data ) {
+			$("#typeID").append(data).selectmenu("refresh", true);
+					
+			if($.cookie("typeID")){
+			$("#typeID").val($.cookie("typeID")).change();
+			} else {$("#typeID").val(1).change(); }
+
+			 lis = data.replace(/option/g ,	'li');
+			 var dataName="หมวดหรือชนิดสินค้า";
+		     $('#selectPDType').append('<ul data-role=\'listviews\'  data-item-name=\''+dataName+'\' data-editable=\'true\' data-title=\''+dataName+'\'  data-button-shadow=\'false\' data-button-corner=\'false\' > '+lis+'</ul>').trigger('create');
+			
+			}).done( function() {
+			//alert(lis);
+			});		
+
+		// set unitID Option
+
+		  $.post('http://'+window.location.hostname+':3030/optUnitID', function( data ) {
+			$("#unitID").append(data).selectmenu("refresh", true);			
+			
+			if($.cookie("unitID")){
+			$("#unitID").val($.cookie("unitID")).change();
+			} else {$("#unitID").val(1).change(); }
+
+			 lis = data.replace(/option/g ,	'li');
+			 var dataName="หน่วยนับสินค้า";
+		     $('#selectPDUnit').append('<ul data-role=\'listviews\'  data-item-name=\''+dataName+'\' data-editable=\'true\' data-title=\''+dataName+'\'  data-button-shadow=\'false\' data-button-corner=\'false\' > '+lis+'</ul>').trigger('create');
+			
+			});
+
+		if(code==undefined){code="";} else {
+			//get product data
+			   var data = {};
+			   data.barcode = code;
+			   data.optionPrice = $("#optionPrice").val();
+			   var body = {};
+			   body.data = data;
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/getProductDetail',
+					success: function(data) {
+						 var result = data[0];
+						// alert(data[0].Name);
+						if(result!=undefined) {
+						$("#model").val(result.Model);
+						$("#name").val(result.Name);
+						$("#price").val(result.Price);
+						$("#qty").val(result.Qty);
+						$("#typeID").val(result.TypeID).change();
+						$("#unitID").val(result.UnitID).change();
+						if(result.Image!=""){
+						$("#oImage").val(result.Image);
+$("#fileContainer").append('<li id="liImage" class="nailthumb-container"><a href="#"  onClick="showImage( $(this) )"><img name="PDImage" src="'+result.Image+'" /><h2 id="img_name">'+ result.Image.replace("/img/Products/","")+'</h2></a><a href="#remove" onClick="removeImage($(this).parent())"></a></li>').listview( "refresh" );
+						}
+						}
+					}
+                  });
+
+
+		}
+
+		document.getElementById("barcode").value= code;
+        //alert(mode);
+		if(mode=="edit") { editMode(); } else {	searchMode();  }
+}); 
+
+
+function saveOption(o, txtdata) {
+			
+		//alert($(o._origDom).parent().parent().context.attributes["data-item-name"].value);
+			var key = $(o._origDom).parent().parent().context.attributes["data-item-name"].value;
+			var table = TableOptions[$(o._origDom).parent().parent().context.attributes["data-item-name"].value];
+
+			//alert(JSON.stringify(oDelOptions[key]));
+			//alert(JSON.stringify(oAddOptions[key]));
+			   var data = {};
+			   data.oAdd =oAddOptions[key];
+			   data.oDel =oDelOptions[key];
+			   data.table = table;
+			   var body = {};
+			   body.data = data;
+			   // send to update database 
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/updateOptions',
+					success: function(data) {
+						 var result = data[0];
+						// alert(data[0].Name);
+
+					}
+                  });
+
+}
+
+
+function keepAddedID(oC, vtxt) {
+					if (oAddOptions[oC]== undefined)	{  oAddOptions[oC]= []; }
+					oAddOptions[oC].push(vtxt);					
+}
+
+function keepDeletedID(oC, vid) {
+					if (oDelOptions[oC]== undefined)	{  oDelOptions[oC]= []; }
+					oDelOptions[oC].push(vid);					
+}
+
+
+function ResizeImage(img, size) {
+				
+				dataurl = "";
+                //var img = document.getElementById("tmp_img");				
+				//img.src = strsrc;
+				//alert(dataurl);
+//			while( dataurl =="" || dataurl == "data:,") {
+                var canvas = document.getElementById("tmp_canvas");
+                var ctx = canvas.getContext("2d");
+                //ctx.drawImage(img, 0, 0);
+                var MAX_WIDTH = size;
+                var MAX_HEIGHT = size;
+                var width = img.width;
+                var height = img.height;
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+				dataurl = canvas.toDataURL();
+				//console.log(dataurl);
+				//$("#tmp_img").remove();
+				//$('#tmp_canvas').remove(); 
+	//			 }
+				 //alert(img.complete);
+
+				 // check if  item exist remove element
+					 if( $('#PDImage').length )
+					{
+						 $('#liImage').remove();
+						  $("#fileContainer").listview( "refresh" );
+					}
+				 filename =document.getElementById("dbFile").files[0].name;
+				 $("#fileContainer").html('<li id="FileBrowse" name="FileBrowse" > Files  <div class="ui-btn ui-btn-icon-notext  ui-icon-camera ui-btn-right" style="top:0px" onClick="getImage()" / ><input type="file" name="dbFile" id="dbFile"  style="display:none" onChange="readImage( this )" /> </li>');
+				 $("#fileContainer").append('<li id="liImage" class="nailthumb-container"><a href="#"  onClick="showImage( $(this) )"><img name="PDImage" src="'+dataurl+'" /><h2 id="img_name">'+ filename+'</h2></a><a href="#remove" onClick="removeImage($(this).parent())"></a></li>').listview( "refresh" );
+	}
+
+function getImage() {
+  //$("#dbFile").trigger('click');
+  document.getElementById("dbFile").click(); 
+}
+
+function readImage(input) {
+    var filebob ="";
+	var filename
+	if ( input.files && input.files[0] ) {
+        var FR= new FileReader();
+        FR.onload = function(e) {
+				$("#tmp_img").attr( "src", e.target.result );
+		  //	jQuery('.nailthumb-container').nailthumb({fitDirection:'top left'});
+          //   $('#dbimg').attr( "src", e.target.result );
+          //   $('#dbtxtimg').val( e.target.result );
+				
+
+        };       
+        FR.readAsDataURL( input.files[0] );
+    
+	}
+}
+
+		function getProductItems( pagePoint, Inum ,code) {
+		    			
+
+			if(code==undefined){ var code="";}
+			   var data = {};
+			   data.optionPrice = 1;
+			   data.BranchID = 1;
+			   data.pagging = pagePoint;
+			   data.pageInum = Inum;
+			   data.tpl = "CardNS";
+			   data.ProductType= $("#ProductType option:selected").val();
+			   data.code = code;
+			   var body = {};
+			   body.data = data;
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/getProductCard',
+					success: function(data) {
+					//alert(data);
+					$("#gridRow").append(data.content);
+					}
+	        });
+		}
+
+
+function removeImage(o) {
+			   var data = {};
+			   data.filename = document.getElementById("dbFile").files[0].name;
+			   var body = {};
+			   body.data = data;
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/removeFile',
+					success: function(data) {
+					}
+					});
+  o.remove();
+  }
+
+ function delData() {
+	var r = confirm("ลบข้อมูล");
+	if (r == true) {
+			if( $("#img_name").html()!=undefined ) {
+				
+			    var data = {};
+				data.filename = $("#img_name").html();
+				var  body = {};
+				body.data = data;
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/removeFile',
+					success: function(data) {
+					}
+					});
+			}
+			var code = $("#barcode").val();
+			var data = {};
+			data.barcode = code;
+			var body = {};
+			body.data = data;
+					   $.ajax({
+							type: 'POST',
+							data:   JSON.stringify(body),
+							contentType: 'application/json',
+							url: 'http://'+window.location.hostname+':3030/delData',
+							success: function(data) {
+								//alert(data)
+								window.location.href='pos_product.html';
+								
+							}
+						   });	
+		
+		}
+
+	 }
+
+ function saveData() {
+var r = confirm("บันทึกข้อมูล");
+
+if (r == true) {
+
+			   if($("#barcode").val()!="") {
+			   var code = $("#barcode").val();
+			   var model = $("#model").val();
+			   var branchID = $("#branchID").val();
+			   var option1ID = $("#option1ID").val();
+			   var option2ID = $("#option2ID").val();
+			   var optionPrice = $("#optionPrice").val();
+			   var typeID = $("#typeID").val();
+			   var unitID = $("#unitID").val();
+			   var optionPrice = $("#optionPrice").val();
+			   var name = $("#name").val();
+			   var price = $("#price").val();
+			   var qty = $("#qty").val();
+			   
+			    if( document.getElementById("tmp_img").src!=undefined ) {
+					//alert(document.getElementById("tmp_img").src);
+			        var imgName = document.getElementById("img_name").innerHTML;
+			        var imgData = document.getElementById("tmp_img").src;
+					   var data = {};
+					   data.filebob = imgData;
+					   data.filename = imgName;
+					   var body = {};
+					   body.data = data;
+					   $.ajax({
+							type: 'POST',
+							data:   JSON.stringify(body),
+							contentType: 'application/json',
+							url: 'http://'+window.location.hostname+':3030/createImage',
+							success: function(data) {
+							//	alert(data)		  
+							}
+						   });					   
+			   } else {
+				    var imgName = $("#oImage").val();
+			   }
+			   var data = {};
+			   data.barcode = code;
+			   data.model = model;
+			   data.name = name;
+			   data.typeID = typeID;
+			   data.unitID = unitID;
+			   data.optionPrice = optionPrice;
+			   data.branchID = branchID;
+			   data.option1ID = option1ID;
+			   data.option2ID = option2ID;
+			   data.price = price;
+			   data.imgName=  imgName.replace("/img/Products/","");
+			   data.qty = qty;
+			   var body = {};
+			   body.data = data;
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/saveData',
+					success: function(data) {	
+						// alert(data[0].Name);
+						//window.location.href = "pos_product.html?code="+$("#barcode").val();
+						window.location.href = "pos_product.html";
+					}
+                  });
+		   }
+
+     } // confirm
+ }
+
+$("#barcode").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+        window.location.href = "pos_product.html?code="+$("#barcode").val()+"&mode=edit";
+    }
+});
+
+
+function showImage( o ) {
+ window.open( "http://" + window.location.hostname+":3030/img/"+"Products/" + $(o).find('h2').html() ,"_blank");
+}
+
+function editMode() {
+$("#saveButton").css("display","");
+$("#delButton").css("display","");
+//alert("edit");
+}
+
+
+function searchMode() {
+$("#saveButton").css("display","none");
+$("#delButton").css("display","none");
+
+//alert("search");
+
+}
+
+function setCookie(name ,p) {
+ $.cookie(name, p.value);
+//alert(p.value);
+}
+ function clearData() {
+ 				$("#barcode").val("");
+				$("#model").val("");
+				$("#name").val("");
+				$("#price").val("");
+				$("#qty").val("");
+ }
+	</script>
+

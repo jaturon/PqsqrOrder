@@ -1,0 +1,422 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<!--link rel="stylesheet" href="./css/themes/default/jquery.mobile-1.4.5.min.css"-->
+<link rel="stylesheet" href="./jquery-mobile/jquery.mobile.min.css">
+<link rel="stylesheet" href="css/editable-listview.css">
+
+<style type="text/css">
+.ui-icon-searchfield:after {background-position: -252px !important;}
+.controlgroup-textinput{
+    padding-top:.22em;
+    padding-bottom:.22em;
+	width: 100%;
+	}
+</style>
+
+  <script src="./jquery/jquery.js"></script>
+  <script src="./jquery-mobile/jquery.mobile.js"></script>
+  <script src="js/collapsible-patched.js"></script>
+  <script src="js/editable-listview.js"></script>
+
+  <script language="javascript">
+  var csvStr ="";
+  var csvData = [];
+  var DBcsv = [];
+  var lis = "";
+
+  $( document ).ready(function() {
+
+  $.ajaxSetup({async: false});
+  $.get('http://'+window.location.hostname+':3030/getCSV', function( data ) {
+  csvStr = data.replace(/\"/g,"");
+  var lines=csvStr.split("\n");
+  var result = [];
+  var headers=lines[0].split(",");
+  for(var i=1;i<lines.length;i++){
+	  var obj = {};
+	  var currentline=lines[i].split(",");
+	  for(var j=0;j<headers.length;j++){
+		   obj[headers[j]] = currentline[j];
+		    }
+	result.push(obj);
+  }
+  csvData = result;
+});
+
+  $.get('http://'+window.location.hostname+':3030/getDB', function( data ) {
+  //alert(JSON.stringify(data));
+  csvStr = data.replace(/\"/g,"");
+  var lines=csvStr.split("\n");
+  var result = [];
+  var headers=lines[0].split(",");
+  for(var i=1;i<lines.length;i++){
+	  var obj = {};
+	  var currentline=lines[i].split(",");
+	  for(var j=0;j<headers.length;j++){
+		   obj[headers[j]] = currentline[j];
+		    }
+	result.push(obj);
+  }
+  DBcsv = result;
+    
+
+  genDataRow();
+});
+  
+  
+  $.ajaxSetup({async: false});
+
+
+  setSelectData("sPDdata" ,"PDdata");
+  setSelectOption("dbProduct" ,"PDdata");
+
+
+  });
+
+
+//alert(window.location.hostname);
+
+//alert(csvData[csvData.length-1]["Title"]);
+
+
+function genDataRow(){
+
+for(j=0; j<DBcsv.length; j++) {
+
+$('#places').append('<div class=\"ui-btn ui-btn-icon-right ui-li-has-arrow  ui-li  \" data-item-name=\''+DBcsv[j]["firstName"]+'\' data-editable=\'true\' data-icon=\'arrow-r\' data-title=\''+csvData[j]["firstName"]+'\'  data-button-shadow=\'true\' data-button-corner=\'true\' >   '+DBcsv[j]["firstName"]+' '+DBcsv[j]["lastName"] +'</div>');
+}
+
+}
+
+function dbgetAThaiID() {
+$("#dbName").val(csvData[csvData.length-1]["คำนำหน้าชื่อ"] + "  " + csvData[csvData.length-1]["ชื่อ"] + "  " + csvData[csvData.length-1]["นามสกุล"]);
+$("#dbfirstName").val(csvData[csvData.length-1]["ชื่อ"]);
+$("#dblastName").val(csvData[csvData.length-1]["นามสกุล"]);
+$("#dbThaiID").val(csvData[csvData.length-1]["เลขประจำตัว"].replace("=","") );
+$("#dbAddress").val(csvData[csvData.length-1]["เลขที่"] + "  " + csvData[csvData.length-1]["ตรอก"] + "  " + csvData[csvData.length-1]["ซอย"] + "  " + csvData[csvData.length-1]["ถนน"] + "  " + csvData[csvData.length-1]["ตำบล/แขวง"]  + "  " + csvData[csvData.length-1]["อำเภอ/เขต"] + "  " + csvData[csvData.length-1]["จังหวัด"]  );
+getMapPosition();
+ document.location.href = "http://"+window.location.hostname+":3030/#DBEdit";
+}
+
+  </script>
+</head>
+<body>
+
+<div data-role="page" id="main" class="type-interior">
+
+	<div data-role="header" data-theme="f">
+		<h1>ระบบจัดเก็บข้อมูล</h1>
+		
+		<a href="#DBEdit"onClick="javascript:dbgetAThaiID()"  data-icon="action" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-action">Home</a>
+	</div><!-- /header -->
+
+	<div data-role="content">
+		
+		<div class="content-secondary">
+			
+			<div data-role="collapsible" data-collapsed="false" data-theme="b" data-content-theme="d">
+				
+					<h3>ข้อมูล</h3>
+					<nav>
+					<ul id="places" data-role="listview"  data-theme="c" data-dividertheme="d">
+						<li data-role="list-divider"></li>
+						<!--li data-theme="a"><a href="#" onClick="DirectTo('1.html')" >Place1</a></li>
+						<li><a href="#" onClick="DirectTo('2.html')" >Place1</a></li-->				
+					</ul>
+					</nav>
+			</div>
+		</div>	
+
+				<div class="content-primary my-page">
+				<div class="ui-content">
+				
+				<h2></h2>
+					
+					<ul id="rooms" data-role="listview" data-inset="true">
+					</ul>
+				
+				</div>	<!--/ui-content -->
+
+			</div><!--/my-page -->			
+		
+	</div><!-- /content -->
+	
+	<div data-role="footer" class="footer-docs" data-theme="c">
+			<p>&copy; 2017 The PQS get and save AThaiID Data  Project (V1)</p>
+	</div>	
+	
+	
+</div><!-- /page -->
+
+
+<div data-role="page" id="DBEdit" data-theme="a" name="DBEdit">
+
+
+	<div data-role="header">
+		<h1>ระบบจัดเก็บข้อมูล</h1>
+		  <a href="#main" role-data="button">    ยกเลิก       </a>
+		  <a href="#main" role-data="button"  onClick="SaveData()">    บันทึกข้อมูล </a>
+  </div>
+
+	<div data-role="content">
+	    <ul id="cartclose" class="paging" data-role="listview" data-theme="a" data-dividertheme="a">
+	<li>
+		  <div data-role="fieldcontain">
+			<label for="dbName">ชื่อ:</label>
+			<input type="hidden" name="dbfirstName" id="dbfirstName" />
+			<input type="hidden" name="dblastName" id="dblastName" />
+			<input type="text" name="dbName" id="dbName" value=""  />
+			<label for="dbThaiID">เลขที่บัตร :</label>
+			<input type="text" name="dbThaiID" id="dbThaiID" value=""  />
+			<label for="dbAddress">ที่อยู่  :</label>
+			<input type="text" name="dbAddress" id="dbAddress" value=""  />
+			</div>
+			 <div class="ui-field-contain">
+			<label for="dbDoctype">ชนิดเอกสาร  :</label>
+
+
+			   <div class="ui-editable-flex">
+					<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+					<select name="dbDoctype" id="dbDoctype" >
+						<option value="ขายใหม่">ขายใหม่</option>
+						<option value="ซื้อ (ขายฝาก)">ซื้อ (ขายฝาก)</option>
+						<option value="อื่นๆ">อื่นๆ</option>
+					</select> 
+					</div>
+
+					<a href="#selectDoctype" data-icon="gear" class="ui-btn ui-editable-flex-item-right ui-editable-border-right ui-btn " data-rel="dialog">จัดการรายการ </a>
+			   </div>
+
+			</div>
+			 <div class="ui-field-contain" >
+					<label for="dbProduct" >สินค้า</label>
+					
+			   <div class="ui-editable-flex">
+					<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+					<select name="dbProduct" id="dbProduct" multiple="multiple" data-native-menu="false" >
+						<option>เลือกข้อมูล</option>
+					</select>
+		 </div>
+
+					<a href="#selectPD" data-icon="gear" class="ui-btn ui-editable-flex-item-right ui-editable-border-right ui-btn " data-rel="dialog">จัดการรายการ </a>
+			   </div>
+
+			</div>
+
+			 <div class="ui-field-contain">
+			<label for="dbMap">แผนที่  :</label>
+			   <div class="ui-editable-flex">
+					<div class="ui-editable-flex-item-left ui-editable-border-left ui-input-text ui-btn ui-shadow-inset" style="padding: 0px; background-color: white;">
+					<input name="dbMap" id="dbMap" />
+					</div>
+
+					<a href="javascript:openGmap()" data-icon="gear" class="ui-btn ui-editable-flex-item-right ui-editable-border-right ui-btn " data-rel="dialog">ดูแผนที่ </a>
+			   </div>
+			</div>
+
+			<div class="ui-field-contain">
+					<label for="dbWeight">รวม น้ำหนัก  :</label>
+					<input type="text" name="dbWeight" id="dbWeight" value=""  />
+					<label for="dbPrice">ราคา  :</label>
+					<input name="dbPrice" id="dbPrice"type="number" step="0.01" min="0" />
+					<label for="dbMemo">หมายเหตุ  :</label>
+					<input type="text" name="dbMemo" id="dbMemo" value=""  /> 
+					<label for="dbFile">รูป  :</label>
+					<input type='file'  name="dbFile" id="dbFile" onChange="readImage( this )" />
+					<label for="dbimg">  </label>
+					<div class="ui-body-inherit ui-corner-all">
+					<img src="" name="dbimg" id="dbimg" /><input type="hidden" id="dbtxtimg" name="dbtxtimg" />
+					</div>
+
+
+			  </div>
+		</li>
+			  </ul>
+
+
+</div>
+  <!-- /content -->
+  <div data-role="footer" id="footerRate"  > </div>
+	<!-- /footer -->
+</div>
+
+<div style="padding: 20px" data-role="page" id="selectDoctype" >
+<div id="sDoctype"></div>
+</div>
+
+<div style="padding: 20px" data-role="page" id="selectPD" >
+
+<div id="sPDdata"></div>
+</div>
+</body>
+
+<script language="javascript">
+
+
+
+function setSelectData(objectName ,dataName) {
+
+	var lis = "";
+	var i = 0;
+	$.ajaxSetup({async: false});
+	 $.get( "getOption", {filename : dataName  , rnd : Math.random() }, function( data ) {
+		 //  alert(JSON.stringify(data));
+		  eval("opts="+data +";");
+			
+		  $.each(opts, function(k, v){
+				i++;
+				if(i!=1){
+				lis = lis + '</li><li>' + v;
+				} else {
+				lis = lis +  v;
+				}
+		  });
+		  lis = "<li>"+ lis + "</li>";
+		});
+   $.ajaxSetup({async: false});
+
+     $('#'+objectName+'').append('<ul data-role=\'listviews\'  data-item-name=\''+dataName+'\' data-editable=\'true\' data-title=\''+dataName+'\'  data-button-shadow=\'false\' data-button-corner=\'false\' > '+lis+'</ul>').trigger('create');
+
+
+}
+
+function getMapPosition() {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(position){
+                var positionInfo =  position.coords.latitude + ", "  + position.coords.longitude ;
+                $("#dbMap").val(positionInfo);
+			//	window.open('https://www.google.com/maps/place/'+  position.coords.latitude +','+ position.coords.longitude,'_blank');
+            });
+        }  else {
+			alert("not support");
+		}
+
+}
+
+function  openGmap() {
+window.open('https://www.google.com/maps/place/'+ $("#dbMap").val(),'_blank');
+}
+function SaveData() {
+
+				var data = {};
+				var fields = ["firstName", "lastName", "ThaiID", "Address" , "Doctype", "Product", "Weight", "Price", "File", "txtimg"];
+				data.firstName = $('#dbfirstName').val();
+				data.lastName = $('#dblastName').val();
+				data.ThaiID = $('#dbThaiID').val();
+				data.Address = $('#dbAddress').val();
+				data.Doctype =  $('#dbDoctype').val();
+				data.Product = $('#dbProduct').val();
+				data.Weight = $('#dbWeight').val();
+				data.Price = $('#dbPrice').val();
+				data.File = $('#dbFile').val().split('\\').pop();
+				data.txtimg = $('#dbtxtimg').val();
+
+				var body = {};
+
+				body.data = data;
+				body.filename = "db.csv"
+				body.fields = fields
+
+
+				//alert(JSON.stringify(data));
+				//alert(JSON.stringify(DBcsv));
+
+				//check if record is a new 
+				   // then add record to JSON data DBcsv
+			   //else update JSON data DBcsv at position pointer
+			   
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/saveData',
+					success: function(data) {
+					//	alert(data)
+							  
+					}
+                  });
+	
+
+}
+
+
+function setSelectOption(objectName ,dataName) {
+
+	var i = 0;
+	$.ajaxSetup({async: false});
+	 $.get( "getOption", {filename : dataName  , rnd : Math.random()}, function( data ) {
+		 // alert(JSON.stringify(data));
+		  eval("opts="+data +";");
+			lis = "";
+		  $.each(opts, function(k, v){
+				i++;
+				if(i!=1){
+				lis = lis + '</option><option value=\'' + v +"\'>" +  v ;
+				} else {
+				lis = lis + " value=\'"  + v + "'\>" + v;
+				}
+		  });
+		  lis = "<option"+ lis + "</option>";
+		});
+   $.ajaxSetup({async: false});
+
+	 //$('#'+objectName+'').html(lis).slideDown().button("refresh");
+	// try {
+
+	 $('#'+objectName).html(lis);
+  	 $('#'+objectName).selectmenu('refresh', true);    
+//	 $('#'+objectName).parent().trigger('create');
+		//$('body').trigger('change')
+	 
+	 //$('#'+objectName+'').
+
+//	 } catch(err) {
+
+  //   }
+
+}
+
+
+function saveOption(o, txtdata) {
+				//document.write( JSON.stringify(o.options.title) );
+				var data = {};
+				data.filename = o.options.title;
+				data.data = txtdata;
+				//alert(JSON.stringify(data));
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(data),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/saveOption',
+					success: function(data) {
+						//alert(data)
+						  setSelectOption("dbProduct" ,"PDdata");
+
+					}
+                  });
+}
+
+function slCallback(t) {
+	//check active object
+	//
+	//$("#pdtxt").val(t.html());
+	//$('#selectPD').dialog('close');
+
+}
+
+
+
+function readImage(input) {
+    if ( input.files && input.files[0] ) {
+        var FR= new FileReader();
+        FR.onload = function(e) {
+             $('#dbimg').attr( "src", e.target.result );
+             $('#dbtxtimg').val( e.target.result );
+        };       
+        FR.readAsDataURL( input.files[0] );
+    }
+}
+</script>
+</html>

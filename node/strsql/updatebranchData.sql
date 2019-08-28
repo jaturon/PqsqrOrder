@@ -1,0 +1,1 @@
+UPDATE sto_branch SET Code=? , Name=? , Address=? , Phone=? , SaleNo=? WHERE ID=? 

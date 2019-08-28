@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Full Slider </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/full-slider.css" rel="stylesheet" />
+
+	    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="style.css" rel="stylesheet">
+	<link href="../css/icon.css" rel="stylesheet">
+	<link href="../css/material.indigo-pink.min.css" rel="stylesheet">
+	<link href="../css/dialog-polyfill.min.css"  rel="stylesheet">
+
+<style type="text/css">
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #b3d4fc;
+}
+
+.users-list-card {
+  margin: 25px;
+  flex: 1 1 100%;
+  max-width: 448px;
+}
+
+.users-list-card > .mdl-list {
+  margin: 0;
+  padding: 0 32px;
+}
+
+.users-list-card > .mdl-list > .mdl-list__item {
+  padding: 0;
+}
+
+.users-list-card > .mdl-list > .mdl-list__item .mdl-textfield {
+  padding: 0;
+}
+
+.users-list-card > .mdl-list > .mdl-list__item .mdl-textfield .mdl-textfield__input {
+  border: none;
+  top: 0;
+}
+
+.users-list-card > .mdl-card__supporting-text > .mdl-list {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.mdl-list__item-avatar {
+  background: url("https://unsplash.it/200?random") no-repeat center center;
+  background-size: cover;
+}
+
+
+
+.register > .mdl-dialog__title {
+  color: #fff;
+  background:
+    url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
+}
+
+.register >card {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	overflow: hidden;
+	backface-visibility: hidden;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 260px;
+	background-color: @light-color;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 3px 4px 0 fade(@darker-color, 14%),
+              0 3px 3px -3px fade(@darker-color, 20%),
+              0 2px 8px 0 fade(@darker-color, 12%);
+}
+
+
+</style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav id="menu" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"> &nbsp;</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+			<li  class="nav-item"><a class="navbar-brand" href="#">Slide Show</a></li>
+		  	<li  class="nav-item"><a class="navbar-brand" href="#SECTIONQR">QRCode</a></li>
+			<li  class="nav-item"><a class="navbar-brand" href="#UserAuthen">User Auth</a></li>
+			<li  class="nav-item"><a class="navbar-brand" href="javascript:#" onClick="return closeMe();">Close</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <!-- Slide One - Set the background image for this slide in the line below -->
+          <div class="carousel-item active" id="slide1" style="background-image: url('http://placehold.it/1900x1080')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3></h3>
+              <p></p>
+            </div>
+          </div>
+          <!-- Slide Two - Set the background image for this slide in the line below -->
+          <div class="carousel-item"  id="slide2" style="background-image: url('http://placehold.it/1900x1080')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3></h3>
+              <p></p>
+            </div>
+          </div>
+          <!-- Slide Three - Set the background image for this slide in the line below -->
+          <div class="carousel-item"  id="slide3" style="background-image: url('http://placehold.it/1900x1080')">
+            <div class="carousel-caption d-none d-md-block">
+              <h3></h3>
+              <p></p>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </header>
+    <!-- Page Content -->
+    
+	<!-- Barcode Section -->
+    <section class="qrcode" id="SECTIONQR" style="padding-top:60px">
+	    <div class="container">
+        <!--h2 class="carousel text-center text-uppercase text-secondary mb-0">qrcode</h2-->
+			<div class="row">
+			  <div class="col-6 col-md-6  ">			
+				  <div id="qrcode" ></div>
+				  <div> จัดการสินค้า </div>
+			  </div>
+			  <div class="col-6 col-md-6 ">			
+				  <div id="qrcode2" ></div>
+				  <div> cashcheir </div>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-3 col-md-3 "></div>	
+			  <div class="col-3 col-md-3 col-centered">			
+				  <div id="qrcode3" ></div>
+				  <div> สร้าง QRcode โต๊ะ</div>
+			  </div>
+			  <div class="col-3 col-md-3 "></div>	
+			</div>
+		</div>
+	</section>
+
+	<!--Authen Section -->
+    <section class="qrcode" id="SECTIONQR" style="padding-top:60px">
+	    <div class="container">
+
+		</div>
+	</section>
+	
+<section id="UserAuthen" style="padding-top:60px">
+		<div class="wrapper">
+  <div class="users-list-card mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">&nbsp; จัดการผู้ใช้งาน</h2>
+    </div>
+    <div class="mdl-card__menu">
+      <a href="javascript:location.reload()"><button class="mdl-button mdl-button--icon">
+       <i class="material-icons">refresh</i>
+      </button></a>
+    </div>
+    <div class="mdl-menu__item--full-bleed-divider"></div>
+		<div class="mdl-card__supporting-text">
+		  <ul class="mdl-list" id="ulUsers">
+		  </ul>
+		</div>
+  </div>
+</div>
+</section>
+	<footer>
+         <!--Copyright-->
+		 <div class="footer-copyright text-center py-3">
+            <div class="container-fluid">
+                &copy; 2018 by 
+                <a href="https://www.pq-soft.com"> Pqsoft</a>, POS QR ORDER <a href="#UserAuthen" onClick="showVersion()"><span id="version">(V1)</span></a><span> <a href="#UserAuthen" onClick="checkUpdate()"> check update </a></span>
+				
+            </div>
+        </div>
+        <!--/.Copyright-->
+    </footer>
+
+		<!--Modal: Version -->
+		<dialog id="dialogVersion" class="register mdl-dialog">
+		   <div class="mdl-dialog__title">
+			<h3 class="mdl-dialog__title-text"> Change Log</h3>
+		  </div>
+			<div id="v_content"></div>
+			<div class="mdl-dialog__actions">
+			<button type="button" class="mdl-button" onClick="dialogVersion.close();">Close</button>
+		  </div>
+		</dialog>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../js/qrcode.js"></script>
+	<script src="../js/jquery.fullscreen.min.js"></script>
+	<script src="../js/dialog-polyfill.min.js"></script>
+	<script language="javascript">
+	   var oversion = {};
+	   
+	   function closeMe() {
+		  if(window.location.hostname=="localhost"){
+			$.post('http://'+window.location.hostname+':3030/closeBrowser', function( data ){
+			
+					})
+		   }
+			 	daddy = window.parent.self;
+				daddy.opener = window.parent.self;
+				daddy.close(); 
+			}
+		function getImages() {
+			 $.post('http://'+window.location.hostname+':3030/getProductImgs', function( data ) {
+			    //	alert(data[0]); 
+				$("#slide1").css("background-image","url(/img/Products/"+data[0]+")");			$("#slide2").css("background-image","url(/img/Products/"+data[1]+")");			$("#slide3").css("background-image","url(/img/Products/"+data[2]+")");		
+			});
+		}
+		getImages();
+		setInterval(getImages, 18000);
+
+
+		  $.post('http://'+window.location.hostname+':3030/getIPs', function( data ) {
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+				width : 200,
+				height : 200
+			});
+			var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+				width : 200,
+				height : 200				
+			});
+			var qrcode3 = new QRCode(document.getElementById("qrcode3"), {
+				width : 200,
+				height : 200				
+			});
+			//alert(data[data.length-1].split(":")[1]);
+			qrcode.makeCode("http://"+data[data.length-1].split(":")[1]+":3030/pos_product.html");
+	        qrcode2.makeCode("http://"+data[data.length-1].split(":")[1]+":3030/cashcheir.html");
+	        qrcode3.makeCode("http://"+data[data.length-1].split(":")[1]+":3030/shop/");
+
+			//qrcode3.makeCode("http://"+data[data.length-1].split(":")[1]+":3030/fsliders/gentables.html");
+
+			});
+			
+
+function GoInFullscreen(element) {
+	if(element.requestFullscreen)
+		element.requestFullscreen();
+	else if(element.mozRequestFullScreen)
+		element.mozRequestFullScreen();
+	else if(element.webkitRequestFullscreen)
+		element.webkitRequestFullscreen();
+	else if(element.msRequestFullscreen)
+		element.msRequestFullscreen();
+}
+
+
+$(document).ready(function() {
+
+		
+
+    // This WILL work because we are listening on the 'document', 
+    // for a click on an element with an ID of #test-element
+    $(document).on("click","#carouselExampleIndicators" ,function() {
+        if($("#menu").css("display")=="flex") {
+			$("#menu").css("display","none");
+			} else {
+			$("#menu").css("display","flex");
+		}
+	//	GoInFullscreen(document.body);
+	});
+    $(document).on("click","#SECTIONQR" ,function() {
+        if($("#menu").css("display")=="flex") {
+			$("#menu").css("display","none");
+			} else {
+			$("#menu").css("display","flex");
+		}
+	});
+
+  // set object version 
+    			  	var dialogVersion = document.querySelector('#dialogVersion');
+				           if (! dialogVersion.showModal) {
+								dialogPolyfill.registerDialog(dialogVersion);
+							}
+
+  // Get Version object
+		$.post('http://'+window.location.hostname+':3030/getVersion', function( data ) {
+			oversion = data;
+			//alert(oversion.version);
+			$("#version").html("(V"+oversion.version+")");
+			$("#v_content").html(oversion.changelog.replace(/,/g,"<br>"));
+		});
+	
+  // Set User Mamager
+  			$.post('http://'+window.location.hostname+':3030/UUIDlsAuth', function( data ) {
+				var keys = Object.keys(data);
+				for (i=0;i<keys.length ;i++ )
+				{
+				$("#ulUsers").append('<li id="'+data[keys[i]].id+'" class="mdl-list__item"><span class="mdl-list__item-primary-content"><a href="#UserAuthen" onClick="setAuth(\'SwitchAuth\',\''+data[keys[i]].id+'\')"><i class="material-icons mdl-list__item-icon"  >'+((data[keys[i]].status=='wait')?'check_box_outline_blank':'check_box')+'</i></a><i class="mdl-list__item-avatar"></i>'+data[keys[i]].username+'</span><a href="#UserAuthen" onClick="setAuth(\'Remove\',\''+data[keys[i]].id+'\')"><i class="material-icons">delete</i></a></li>');
+				}
+			
+	        });
+
+	//		$("#carouselExampleIndicators").trigger("click");
+});
+
+function showVersion() {
+		dialogVersion.showModal();
+	
+}
+
+function checkUpdate() {
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify({}),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/checkUpdate',
+					success: function(data) {
+						alert(data);					
+					}
+	        });
+	
+}
+
+function setAuth(action ,id) {
+	alert(action);
+	if(action=='SwitchAuth') {
+	if($("#"+id).find(".mdl-list__item-icon").html()=='check_box_outline_blank'){
+			$("#"+id).find(".mdl-list__item-icon").html('check_box');
+			} else {
+			$("#"+id).find(".mdl-list__item-icon").html('check_box_outline_blank');
+	}
+	} else if (action=='Remove')
+	{
+		$("#"+id).remove();
+	}
+
+	$.post('http://'+window.location.hostname+':3030/UUIDsetAuth',{action: action, id: id}, function( data ) {
+	 });
+	
+}
+
+
+var buttons = document.querySelectorAll('.mdc-button, .mdc-fab');
+for (var i = 0, button; button = buttons[i]; i++) {
+  mdc.ripple.MDCRipple.attachTo(button);
+}
+
+var nodes = document.querySelectorAll('.mdc-icon-toggle');
+for (var i = 0, node; node = nodes[i]; i++) {
+  mdc.iconToggle.MDCIconToggle.attachTo(node);
+}
+
+var checkboxes = document.querySelectorAll('.mdc-checkbox');
+for (var i = 0, checkbox; checkbox = checkboxes[i]; i++) {
+  new mdc.checkbox.MDCCheckbox(checkbox);
+}
+
+var radios = document.querySelectorAll('.mdc-radio');
+for (var i = 0, radio; radio = radios[i]; i++) {
+  new mdc.radio.MDCRadio(radio);
+}
+
+var interactiveListItems = document.querySelectorAll('.mdc-list-item');
+for (var i = 0, li; li = interactiveListItems[i]; i++) {
+  mdc.ripple.MDCRipple.attachTo(li);
+  // Prevent link clicks from jumping demo to the top of the page
+  li.addEventListener('click', function(evt) {
+    evt.preventDefault();
+  });
+}
+
+	</script>
+
+  </body>
+
+</html>

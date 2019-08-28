@@ -1,0 +1,1 @@
+SELECT Code , SaleNo  FROM `sto_branch` WHERE ID={ID}

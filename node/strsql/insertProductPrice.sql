@@ -1,0 +1,1 @@
+insert into sto_product_attr(Barcode, option1ID, option2ID , ProductID, {Price} , CreateDate) value (? , ?, ?, ? , ? , ?)

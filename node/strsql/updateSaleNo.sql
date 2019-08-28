@@ -1,0 +1,1 @@
+UPDATE sto_branch SET saleNo=saleNo+1 WHERE ID = {ID}

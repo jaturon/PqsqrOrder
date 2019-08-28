@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>PQS Cashcheir Foodstore</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+	<link href="css/icon.css" rel="stylesheet">
+	<link href="css/material.indigo-pink.min.css" rel="stylesheet">
+	<link href="css/dialog-polyfill.min.css"  rel="stylesheet">
+	
+    <link href="shop/style.css" rel="stylesheet">
+
+	<style>
+
+.wrapper {
+  margin-top: 60px;
+  width: 109px;
+  height: 109px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  transform: translate(-0%, -50%);
+  transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: transform 375ms, width 275ms 100ms, height 375ms;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.wrapper.open {
+  transform: translate(0%, 0%);
+  width: 250px;
+  height: 330px;
+  
+}
+div.content {
+  position: absolute;
+  margin: auto;
+  left: -9999px;
+  right: -9999px;
+  transform-origin: top;
+  width: 330px;
+  /*transform: scale(0.62);*/
+  height: 330px;
+  border-radius: 3px;
+  background: #fff;
+  overflow: hidden;
+  transition: transform 375ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.content.open {
+  transform: scale(1);
+}
+.img {
+  height: 180px;
+  background-image: url("/img/RestaurantTables.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.hcard {
+padding-left: 35%; 
+}
+
+.hcard.open {
+padding-left: 15%; 
+}
+
+.text {
+  padding: 5px; 
+}
+.text .line {
+  height: 90px;
+  margin-top: 5px;
+}
+.title {
+  width: 80%;
+  padding-left: 40px;
+}
+.subtitle { 
+  width: 85%;
+  padding-left: 40px;
+  overflow-y: auto;
+}
+.Rmoney {
+	text-align: right;
+}
+
+
+.material-switch > input[type="checkbox"] {
+  display: none;
+}
+
+.material-switch > label {
+  cursor: pointer;
+  height: 0px;
+  position: relative;
+  top: 2px;
+  width: 40px;
+}
+
+.material-switch > label::before {
+  background: rgb(0, 0, 0);
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  content: '';
+  height: 16px;
+  margin-top: -8px;
+  position: absolute;
+  opacity: 0.3;
+  transition: all 0.4s ease-in-out;
+  width: 40px;
+}
+
+.material-switch > label::after {
+  background: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  content: '';
+  height: 24px;
+  left: -4px;
+  margin-top: -8px;
+  position: absolute;
+  top: -4px;
+  transition: all 0.3s ease-in-out;
+  width: 24px;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::before {
+  background: inherit;
+  opacity: 0.5;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::after {
+  background: inherit;
+  left: 20px;
+}
+
+.register.mdl-dialog {
+  width: 320px;
+  height: 450px;
+}
+
+.register > .mdl-dialog__title {
+  color: #fff;
+  background:
+    url('../assets/demos/dog.png') bottom right 15% no-repeat #46B6AC;
+}
+
+.register >card {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	overflow: hidden;
+	backface-visibility: hidden;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 260px;
+	background-color: @light-color;
+	border: 0;
+	border-radius: 2px;
+	box-shadow: 0 3px 4px 0 fade(@darker-color, 14%),
+              0 3px 3px -3px fade(@darker-color, 20%),
+              0 2px 8px 0 fade(@darker-color, 12%);
+}
+
+
+.card__content {
+	padding: 16px;
+	color: @dark-color;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+
+/* Card action area */
+
+.card__action {
+	display: flex;
+	padding: 8px;
+
+	& + & { padding-top: 0; }
+}
+
+.inputfield {
+	position: relative;
+	padding: 20px 0;
+}
+
+/* Inputfield input */
+
+.inputfield__input {
+	display: block;
+	padding: 4px 0;
+	width: 100%;
+	color: inherit;
+	font-size: 16px;
+	line-height: 21px;
+	background-color: transparent;
+	border: 0 solid fade(@darker-color, 12%);
+	border-bottom-width: 1px;
+}
+
+.inputfield__label {
+	position: absolute;
+	top: 24px;
+	left: 0;
+	color: @darker-color;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 21px;
+	pointer-event: none;
+	transition: all .28s ease-in-out;
+}
+
+.inputfield.is-dirty .inputfield__label,
+.inputfield__input:focus ~ .inputfield__label {
+	top: 0;
+	font-size: 12px;
+	font-weight: 500;
+	transition-duration: .14s;
+}
+
+.inputfield.is-dirty .inputfield__label { color: #757575;}
+
+.inputfield__input:focus ~ .inputfield__label { color: @secondry-color; }
+
+/* Inputfield under-line */
+
+.inputfield__underline {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	right: 50%;
+	height: 2px;
+	background-color: @secondry-color;
+	transition: all .28s ease-in-out;
+}
+
+.inputfield__input:focus ~ .inputfield__underline {
+	left: 0%;
+	right: 0%;
+	transition-duration: .21s;
+}
+
+.mdl-list__item-avatar {
+  background: url("https://unsplash.it/200?random") no-repeat center center;
+  background-size: cover;
+}
+	</style>
+    <!-- Your custom styles (optional) -->
+</head>
+<body class="fixed-sn light-blue-skin">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark double-nav  fixed-top scrolling-navbar">
+            <div class="logo navbar-brand mr-auto">
+				 &nbsp;&nbsp;แคชเชียร์ 
+            </div>
+			   <button class="btn btn-success btn-rounded" onClick="popHistory()">รายการขาย</button>
+			   Print &nbsp;
+			  <div class="material-switch">
+                <input id="printable" name="printable" type="checkbox" checked onChange="checkPrint()">
+                <label for="printable" class="default-color"></label>
+              </div>
+			 
+		</nav>
+    </header>
+    <main>
+		<div  >
+				<div id="CashcheirDesk" class="row wow fadeIn" />
+		</div>
+	</main>
+
+
+<!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCart">Launch modal</button -->
+
+<!-- Modal: modalSaleList -->
+<div class="modal fade" id="modalHistory" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myHistoryModalLabel">รายการขาย ประจำวัน </h4>
+				<input style="display:none" id="CheckoutTable">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <table class="table table-hover" id="table-history">
+                    <thead>
+                        <tr>
+                            <th> ใบสั่ง </th>
+                            <th> เลขที่ </th>
+							<th> รวมเงิน </th>
+							<th> รับเงิ </th>
+							<th> ทอน </th>
+							<th> เวลา </th>
+							<th> </th>
+                        </tr>
+                    </thead>
+                    <tbody id="dailytbody">
+                    </tbody>
+                </table>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+				<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+				<a id="saveTo" class="btn btn-primary" href="" download>บันทึก Export</a>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- end Modal: modalHistory -->
+
+<!-- Modal: modalCart -->
+<div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">ใบสั่งที่ #</h4>
+				<input style="display:none" id="CheckoutTable">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <table class="table table-hover" id="table-receipt">
+                    <thead>
+                        <tr>
+                            <th>สินค้า</th>
+                            <th>ราคา (ปริมาณ)</th>
+							<th>หน่วย</th>
+							<th>รวม</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" onClick="Checkout();">Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end Modal: modalCart -->
+
+
+
+<!--Modal: SignUp -->
+<dialog id="dialogSignUp" class="register mdl-dialog">
+   <div class="mdl-dialog__title">
+    <i class="mdl-list__item-avatar"></i>
+    <h2 class="mdl-dialog__title-text">User</h2>
+  </div>
+		<div class="card">		
+		<div class="card__content">
+		<div class="inputfield">
+				<input class="inputfield__input" id="username" onChange="chkLabel(this)" name="username" type="text">
+				<label class="inputfield__label" for="username">ผู้ใช้งาน</label>
+				<span class="inputfield__underline" aria-hidden="true"></span>
+		</div>
+		<div class="inputfield">
+				<input class="inputfield__input" id="Phone" onChange="chkLabel(this)" name="Phone" type="text">
+				<label class="inputfield__label" for="Phone">เบอร์โทร</label>
+				<span class="inputfield__underline" aria-hidden="true"></span>
+		</div>
+		</div>
+		</div>
+  <div class="mdl-dialog__actions">
+    <button type="button" class="mdl-button" onClick="registerDevice()">ลงทะเบียน</button>
+  </div>
+</dialog>
+
+<!--end Modal SignUp -->
+
+<!--Modal: Wait Aith -->
+<dialog id="dialogWait" class="register mdl-dialog">
+   <div class="mdl-dialog__title">
+    <i class="mdl-list__item-avatar"></i>
+    <h2 class="mdl-dialog__title-text">รออนุมัติใช้งาน</h2>
+  </div>
+    <div class="mdl-dialog__actions">
+    <button type="button" class="mdl-button" onClick="location.reload();">Refresh</button>
+  </div>
+</dialog>
+
+<input type="hidden" id="socketID" />
+<input type="hidden" name="BranchID" id="BranchID"  value="1"  />
+
+</body>
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+     <!-- JSDateTime JavaScript -->
+	<script type="text/javascript" src="js/JSDateTime.js"></script>
+	<script src="js/socket.io.js"></script>
+	<script defer src="js/material.min.js"></script>
+
+	<script src="js/dialog-polyfill.min.js"></script>
+
+	 <script language="javascript">			   
+
+			    function popHistory() {
+				 //alert('http://'+window.location.hostname+':3030/DailyLists');
+				$.post('http://'+window.location.hostname+':3030/DailyLists', function( data ) {
+					//alert(JSON.stringify(data));
+					var tableContent =data[1];
+					$("#saveTo").attr("href",data[0]);
+					$("#dailytbody").html('');
+					$("#dailytbody").append(tableContent);
+					$('#modalHistory').trigger("create");
+					$('#modalHistory').modal();
+				});		
+				}
+				
+				function chkLabel(o){
+					 if($(o).val()==''){
+						$(o).parent().find("label").css("z-index","");
+						 } else {
+						$(o).parent().find("label").css("z-index","-1")
+						}
+					}
+
+			    function checkPrint() {
+					//alert($("#printable").is(":checked"));
+					}
+				function wrapper(o) {
+				$('.content').toggleClass('open');
+				$(o).parent().find('.hcard').toggleClass('open');
+				$(o).toggleClass('open');
+			  }
+			  	var dialogSignUp = document.querySelector('#dialogSignUp');
+				           if (! dialogSignUp.showModal) {
+								dialogPolyfill.registerDialog(dialogSignUp);
+							}
+			  	var dialogWait = document.querySelector('#dialogWait');
+				           if (! dialogWait.showModal) {
+								dialogPolyfill.registerDialog(dialogWait);
+							}
+				var Storage = window.localStorage; 
+				if (typeof(Storage) == "undefined") {
+				alert("No Localstorage");
+				// Code for localStorage/sessionStorage.
+				} else {
+				// Sorry! No Web Storage support..
+				if(Storage.getItem("Pqs.id") == null){
+				//alert("first time");
+				dialogSignUp.showModal();
+				} else {
+				var id=Storage.getItem("Pqs.id");
+					$.post('http://'+window.location.hostname+':3030/UUIDAuthChk',{id: id}, function( data ) {
+						//alert(data); 
+					 
+					 if (data=='wait')
+					 {
+						dialogWait.showModal();
+					 } else if (data=='deleted')
+					 {
+						 localStorage.clear();
+						 location.reload();
+					 }
+					 
+					});
+				}
+				}
+
+
+				var socket;
+				var closeTable = (function(data) {
+				var gtotal = 0;
+
+					 //alert(JSON.stringify(data));
+					$("#CheckoutTable").val(data);
+					$("#myModalLabel").html("ใบสั่งที่ " + data.replace("table", ""));
+					$("#"+data+"foods .total").each(function() { 
+					 gtotal = gtotal+$(this).html().replace(" บาท.","")*1;
+					// alert(gtotal);
+					});
+
+					var tableContent = $("#"+data+"foods").html().replace(/div/g,'tr').replace(/span/g,'td');
+					//alert(tableContent);
+					tableContent = tableContent + '<tr><td scope="row"></td><td>Total</td><td align="right" id="totalPrice">'+ gtotal +'</td> </tr><tr><td scope="row"></td> <td>รับเงิน</td><td align="right"><input id="RecieveMoney" class="Rmoney" onkeyup="PrintReturnMoney()" /></td></tr><tr><td scope="row"></td><td>ทอนเงิน</td><td align="right"><div id="ChangeMoney"></div></td></tr>';
+
+					$("#tbody").html("");
+					$("#tbody").append(tableContent);
+					$('#modalCart').trigger("create");
+
+					$('#modalCart').modal();
+				   			  
+				   });
+
+				   function Checkout() {
+
+					   if (  !isNaN($("#RecieveMoney").val() ) && !($("#RecieveMoney").val().trim()==""))
+					   {
+					  
+							var data = {};
+							data.table = $("#CheckoutTable").val();
+							data.branchID= $("#BranchID").val();
+							data.totalPrice = $("#totalPrice").html().replace(" บาท.", "");
+							data.RecieveMoney = $("#RecieveMoney").val();
+							data.ChangeMoney = $("#ChangeMoney").html();
+							data.printable = $("#printable").is(":checked");
+							//alert(JSON.stringify(data));
+
+							socket.emit('ServercloseTable', data );
+							$("#"+$("#CheckoutTable").val()).remove();
+							
+							$('#modalCart').modal('toggle'); 
+						 } else {
+								alert("Please input Recieve Money");
+							 }
+						
+					   }
+
+					function PrintReturnMoney(){
+							
+							var changed = ($("#RecieveMoney").val()*1) -($("#totalPrice").html().replace(" บาท.", "")*1);
+							//alert(($("#totalPrice").html().replace(" บาท.", "")*1));
+
+							if (!isNaN(changed))
+							{
+								$("#ChangeMoney").html(changed);
+							}
+
+						}
+
+		function delTable(data){
+			//alert(data);
+			
+			    var phone = prompt("เบอร์โทรที่ลงทะเบียน", "");
+				var id=Storage.getItem("Pqs.id");
+			if (phone != null) {
+
+			$.post('http://'+window.location.hostname+':3030/delTable',{id: id , table: data,phone: phone}, function( result ) {
+					if(result=="AuthOk"){
+							location.reload();
+						} else {
+							alert("เบอร์โทรไม่ถูกต้อง");
+						}
+			
+			});	
+			}
+			}
+
+		function registerDevice(){
+						 var data = {};
+						 data.username= $("#username").val();
+						 data.Phone= $("#Phone").val();
+						 var body = {};
+						 body.data = data;						 
+						 $.ajax({
+								type: 'POST',
+								data:   JSON.stringify(body),
+								contentType: 'application/json',
+								url: 'http://'+window.location.hostname+':3030/regUUID',
+								success: function(data) {
+								//alert(data);
+								Storage.setItem("Pqs.id",data.id);
+								Storage.setItem("Pqs.username",data.username);
+								Storage.setItem("Pqs.Phone",data.Phone);
+								dialogSignUp.close();
+								location.reload();
+								if(data.status == 'auth'){
+								 
+								} else {
+
+								}
+								}
+						});						
+						}
+
+			  $.post('http://'+window.location.hostname+':3030/getVersion', function( data ) {	
+				  });
+					
+			  $(function () {
+
+				   socket = io.connect('http://'+window.location.hostname+':3031');
+ 				   
+				   socket.on('connect' , function() {						
+						$("#socketID").val(socket.io.engine.id);
+						socket.emit('ServercheckDesk', {id : socket.io.engine.id });
+				   });
+				   
+				   	socket.on( 'refreshDesk' , function(h) {
+						//alert();
+						location.reload();
+					});
+
+				   socket.on("addToCounter", function(data) {
+				   //alert(data.food +" "+data.qty + " "+ data.unit + " "+ (data.price*data.qty) + " บาท.");
+							
+							if($("#"+data.table+"foods").find("."+ data.table+"-"+data.code).html()==undefined){
+							$("#"+data.table+"foods").append("<div class='"+data.table+"-"+data.code+"' ><span class='code'>"+ data.food +"</span><span class='qty'> "+data.qty + "</span><span class='unit'>"+ data.unit + "</span><span class='total'>"+ (data.price*data.qty) + " บาท.</span></div>");
+							} else {
+							$("#"+data.table+"foods").find("."+ data.table+"-"+data.code).html("<span class='code'>"+ data.food +"</span><span class='qty'> "+data.qty + "</span><span class='unit'>"+ data.unit + "</span><span class='total'>"+ (data.price*data.qty) + " บาท.</span>");
+							
+							}
+				   });
+
+					socket.on( 'checkDesk' , function(h) {
+					if(h.id==$("#socketID").val()){
+						$.each( h, function( k, item ) {
+							// alert("hid: " +h.id);
+							// alert("div: " +$("#socketID").val());
+							if(typeof item === "object") {	
+								// add ordered to table
+								
+								var foodsli = "";
+								
+								$.each( item, function( k, v ) {
+								    if(v.food != undefined) {
+								    foodsli +="<div><span>";
+									 foodsli += v.food +"</span><span>"+v.qty + "</span><span>"+ v.unit + "</span><span class='total'>"+ (v.price*v.qty) + " บาท.";
+									foodsli +="</span></div>"; 
+									}
+								 });								
+					if($('#CashcheirDesk').find("#"+k).html()==undefined || $('#CashcheirDesk').find("#"+k).html()=="" ) {								 
+								 $('#CashcheirDesk').append('<div class="col-lg-3 col-md-6 mb-4"><div id="'+k+'" class="wrapper" onClick="wrapper(this)"><div class="content"><div class="line hcard">'+k.replace("table", "ใบสั่ง")+'		<span class="badge badge-pill danger-color" onClick="closeTable(\''+k+'\')"><i class="material-icons">print</i></span> <span class="badge badge-pill danger-color" onClick="delTable(\''+k+'\')"> <i class="material-icons">delete</i> </span> </div><div class="img"></div><div class="text"><div class="title">รายการ </div><div class="line  subtitle" id="'+k+'foods">'+foodsli+'</div></div></div></div></div>');
+								 } //if duplicate object
+							}	// typeofobject				
+							});
+							}// check if this own request
+					});
+					socket.on('addDesk' , function(data){						
+					if($('#CashcheirDesk').find("#"+data.table).html()==undefined || $('#CashcheirDesk').find("#"+data.table).html()=="" ) {
+					  $('#CashcheirDesk').append('<div class="col-lg-3 col-md-6 mb-4"><div class="wrapper" onClick="wrapper(this)"  id="'+data.table+'"><div class="content"><div class="hcard">'+data.table.replace("table", "ใบสั่ง")+'		<span class="badge badge-pill danger-color" onClick="closeTable(\''+data.table+'\')"><i class="material-icons">print</i></span> <span class="badge badge-pill danger-color" onClick="delTable(\''+data.table+'\')"> <i class="material-icons">delete</i> </span> </div><div class="img"></div><div class="text"><div class=" title">รายการ</div><div class="line subtitle" id="'+data.table+'foods"></div></div></div></div></div>');
+					 }
+					});
+
+			  });
+
+</script>
+
+</html>

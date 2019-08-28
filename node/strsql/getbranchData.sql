@@ -1,0 +1,1 @@
+select Code,Name,Address,Phone,SaleNo from sto_branch WHERE ID={ID}

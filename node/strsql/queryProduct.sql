@@ -1,0 +1,1 @@
+select productID from sto_product_attr

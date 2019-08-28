@@ -1,0 +1,12 @@
+get termux from play store
+open termux
+run apt update && apt upgrade
+run termux-setup-storage
+run npm install express
+run npm install path
+run npm install body-parser
+run npm install fs
+run npm install json2csv
+copy Nodejs folder from backup to /
+run cd Nodejs
+run node server.js

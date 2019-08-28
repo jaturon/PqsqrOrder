@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>PQS store </title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="../css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="style.css" rel="stylesheet">
+<style>
+.active-pink-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #f48fb1;
+    box-shadow: 0 0 0 1px #f48fb1;
+}
+.active-pink-3 input[type=text] {
+    border: 1px solid #f48fb1;
+    box-shadow: 0 0 0 1px #f48fb1;
+}
+.active-purple-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #ce93d8;
+    box-shadow: 0 0 0 1px #ce93d8;
+}
+.active-purple-3 input[type=text] {
+    border: 1px solid #ce93d8;
+    box-shadow: 0 0 0 1px #ce93d8;
+}
+.active-cyan-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
+}
+.active-cyan-3 input[type=text] {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
+}
+.active-cyan-3 .fa, .active-cyan-4 .fa {
+    color: #4dd0e1;
+}
+.active-purple-3 .fa, .active-purple-4 .fa {
+    color: #ce93d8;
+}
+.active-pink-3 .fa, .active-pink-4 .fa {
+    color: #f48fb1;
+}
+</style>
+
+</head>
+
+<body class="fixed-sn light-blue-skin">
+
+    <!--Main Navigation-->
+    <header>
+
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark double-nav  fixed-top scrolling-navbar">
+
+            <!-- SideNav slide-out button -->
+            <div class="float-left">
+                <a href="#" data-activates="slide-out" class="button-collapse">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn mr-auto ml-auto">
+                <p>PQS Shopping Cart</p>
+            </div>
+			
+			<div class="nav navbar-nav nav-flex-icons">
+				 <span class="form-control-sm" id="TableNum"> </span>
+			</div>
+
+            <!-- Links -->
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+				 <li class="nav-item">
+						<div class="form-inline active-cyan-4">
+							<input class="form-control form-control-sm mr-3 w-75" type="text" id="barcode" placeholder="Search" aria-label="Search">
+							<a href="#" id="scan" name="scan"><i class="fa fa-search" aria-hidden="true"></i></a>
+						</div>
+				</li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="navbarDropdownMenuLink" onClick="checkStatus();">
+                                <span class="badge danger-color" id="badge">0</span>
+                                <i id="icart" class="fa fa-shopping-cart " aria-hidden="true"></i>
+                                <span id="itxt"  class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+
+                </li>
+            </ul>
+
+        </nav>
+        <!--/.Navbar-->
+
+        <!-- Sidebar navigation -->
+        <div id="slide-out" class="side-nav fixed sn-bg-3">
+            <ul class="custom-scrollbar list-unstyled">
+                <!-- Logo -->
+                <li class="logo-sn waves-effect">
+                    <div class=" text-center">
+                        <a href="#" class="pl-0">
+                            <img src="img/logo.png" class="">
+                        </a>
+                    </div>
+                </li>
+                <!--/. Logo -->
+                <!--Search Form-->
+                <!--/.Search Form-->
+                <!-- Side navigation links -->
+                <li>
+                            <a class="waves-effect arrow-r">
+                                <i class="fa fa-user"></i> ลูกค้า
+                            </a>
+				  </li>	
+                <!--li>
+                            <a class="waves-effect arrow-r">
+                                <i class="fa fa-sitemap"></i> หมวดสินค้า
+                            </a>
+				  </li-->			
+                <li>
+                            <a class="waves-effect arrow-r">
+                                <i class="fa fa-tags"></i> โปรโมชั่น
+                            </a>
+				  </li>	
+                <li>
+                            <a class="waves-effect arrow-r">
+                                <i class="fa fa-file"></i> รายการขาย
+                            </a>
+				  </li>				  
+				<!--/. Side navigation links -->
+            </ul>
+
+            <!-- Mask -->
+            <div class="sidenav-bg mask-strong"></div>
+
+        </div>
+        <!--/. Sidebar navigation -->
+
+    </header>
+    <!--Main Navigation-->
+
+    <!--Main layout-->
+    <main>
+
+		<div class="container-fluid">
+
+            <!--Section: Table-->
+            <section class="mb-5" id="ctCart">
+
+                <!--Top Table UI-->
+                <div class="card p-2 mb-5">
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div  class="col-12 col-md-8">
+						<fieldset class="form-group">
+<select class="mdb-select colorful-select dropdown-primary mx-2" id="ProductType" name="ProductType" onChange="queryProduct(this);">
+                                <option value="" disabled selected>หมวดสินค้า</option>
+                                <option value="0">ทั้งหมด</option>
+                            </select>
+							</fieldset>
+                            <!--/Blue select-->
+
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                </div>
+                <!--Top Table UI-->
+
+       <!--Grid row-->
+        <div class="row wow fadeIn" id="gridRow">
+
+		</div>
+                      <div class="card p-2 mb-5">  
+					        <div class="row">
+								<div class="col-md-12 mb-3">
+									<button class="float-right btn blue-gradient btn-rounded" onClick="getMoreProduct()">More</button>
+								</div>
+							</div>
+					 </div>
+			</section>
+			<!--Section: Table-->
+
+<section class="mb-5" style="display:none" id="ctShop">
+
+              <!--Top Hear UI 2-->
+                <div class="card p-2 mb-5">
+
+                    <!--Grid row-->
+                    <div class="row">
+
+                        <!--Grid column-->
+                        <div  class="col-6 col-md-6">
+								ชื่อลูกค้า : <span id="DocNo" style="display:none" />
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div  class="col-6 col-md-6">
+								วันที่  :  <span id="SaleDate" />
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div  class="col-6 col-md-6">
+								
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div  class="col-6 col-md-6">
+
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                </div>
+                <!--Top Head UI 2-->
+
+                <div class="card card-cascade narrower">
+
+                    <div class="card-body card-body-cascade">
+
+                        <div class="table-responsive">
+
+							<table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Product name (Qty)</th>
+                                <th>Price (Total)</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody id="basket">
+                            <!--tr>
+                                <th scope="row">1</th>
+                                <td>Product 1 (1pcs)</td>
+                                <td>100$ (100$)</td>
+                                <td><a><i class="fa fa-remove"></i></a></td>
+                            </tr-->
+                        </tbody>
+                    </table>
+						<button id="orderCmd" class="btn btn-primary btn-rounded btn-sm waves-effect waves-light float-right" onClick="orderNow()">สั่งสินค้า</button>
+					</div>
+					</div>
+					</div>
+
+
+</section>
+
+        </div>
+    </main>
+
+    <!--Main layout-->
+<input type="hidden" name="BranchID" id="BranchID"  value="1"  />
+<input type="hidden" name="optionPrice" id="optionPrice"  value="1"  />
+<input type="hidden" name="pagging" id="pagging" value="0" />
+<input type="hidden" name="pageInum" id="pageInum" value="6" />
+
+    <!--Footer-->
+    <footer class="page-footer mt-4">
+
+        <!--Copyright-->
+        <div class="footer-copyright text-center py-3">
+            <div class="container-fluid">
+                &copy; 2018 by 
+                <a href="https://www.pq-soft.com"> Pqsoft</a>, POS QR ORDER <span id="version">(V1)</span>
+
+            </div>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+     <script type="text/javascript" src="../js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+     <script type="text/javascript" src="../js/mdb.min.js"></script>
+    <!-- JSDateTime JavaScript -->
+	 <script type="text/javascript" src="../js/JSDateTime.js"></script>
+    <!-- Jquery cookie JavaScript -->
+	 <script type="text/javascript" src="../js/jquery.cookie.js"></script>
+    <!-- Socket io JavaScript -->
+	 <script src="../js/socket.io.js"></script>
+
+
+
+    <!-- Initializations -->
+    <script>
+		// Set Date Object
+		var date = new JSDateTime();
+		var Tbn = 0;
+		var Gtotal =0;
+		var orderedQty = 0;
+		
+       // $.cookie('Tbn' , '');
+	   	if(!$.cookie("Tbn")){
+				$.ajax({
+					type: 'POST',
+					async: false,
+				    data:   JSON.stringify({}),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/getQue',
+					success: function(data) {
+					// alert(data);
+					 var d = new Date();
+					 var minutes = 30;
+					 d.setTime(d.getTime() + (minutes * 60 * 1000));
+					 $.cookie("Tbn", data,  { expires: d });
+					 Tbn = data;
+					 //alert(Tbn);
+					}
+		  });
+		} else {
+		var Tbn =$.cookie("Tbn");
+		//alert(Tbn);
+		}
+		//alert(Tbn);
+	    //alert(window.location.search.replace("?","").split("&").length);
+
+
+		if(window.location.search!="") {
+
+		var search = window.location.search.replace("?","").replace("#","").split("&");
+		for (i=0;i<search.length ; i++ )
+		{
+			eval("var " + search[i].split("=")[0] + "= '"+search[i].split("=")[1]+"'");
+		}
+		//var code =(window.location.search).split("=")[1].replace("&mode", "");
+		//var Tbn = (window.location.search).split("=")[3].replace("#","");
+		} else {
+		var code = "";
+
+				//alert(Tbn);
+		}
+		$("#TableNum").html("Table"+Tbn);
+		if(!$.cookie("ProductType")){
+		$.cookie("ProductType", 0);
+		}
+		$("#ProductType option[value="+$.cookie("ProductType")+"]").prop('selected', true);
+		//$("#ProductType").val($.cookie("ProductType")).change();
+	   // connect to Counter Desk 
+       var socket = io.connect('http://'+window.location.hostname+':3031');
+		socket.emit('openTable', {table : Tbn });
+		socket.on( 'openTable' , function(o) {
+					// alert(JSON.stringify(o));
+					$.each( o, function( k, item ) {
+						 if((item.qty*1)>0) {
+							for (i=0;i<(item.qty*1); i++)
+							{
+							if(typeof item === "object") {
+								addCard( k, item.food, item.price , item.unit,"old");
+								orderedQty = orderedQty + item.qty;
+							}
+							}
+							}
+					});
+					if($("#basket tr").length==0) {
+					$("#orderCmd").html('สั่งสินค้า');
+					} else {
+					$("#orderCmd").html('คิดเงิน');
+					}
+		});
+
+					socket.on( 'refreshDesk' , function(h) {
+						location.reload();
+					});
+				//test order
+				//socket.emit('orderFood', { food :"ผัดไทย",  qty : 1 , unit : "จาน"});
+
+
+        // SideNav Initialization
+        $(".button-collapse").sideNav();
+
+        // Material Select Initialization
+        $(document).ready(function () {
+		// set SaleDate
+		$("#SaleDate").html(date.getCurrentDate());
+
+
+		// set DocNo
+
+			   var data = {};
+			   data.BranchID = $("#BranchID").val();
+			   var body = {};
+			   body.data = data;
+
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/DocNo',
+					success: function(data) {
+					 $("#DocNo").html(data.Code+"-"+data.SaleNo);
+					}
+		  });
+
+
+
+document.getElementById("scan").href="zxing://scan/?ret=http://"+window.location.hostname+":3030/shop/index.html?code={CODE}&mode=shop";
+
+            
+
+				// set typeID Option
+		  $.post('http://'+window.location.hostname+':3030/optTypeID', function( data ) {
+			//alert(data);
+			$("#ProductType").append(data);
+			$("#ProductType").material_select();
+	        });
+
+				getProductItems(  $("#pagging").val(),  $("#pageInum").val() , code );
+
+		});
+
+
+        // Data Picker Initialization
+        $('.datepicker').pickadate();
+
+        // Tooltip Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+$("#barcode").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+        window.location.href = "?code="+$("#barcode").val()+"&mode=shop&Tbn="+Tbn;
+    }
+});
+
+
+		function addCard( BarCode, ProductName, Price , Unit, status ) {
+				var basketCount = (($("#badge").html()*1)+1);
+				Gtotal +=(Price*1);
+				$("#badge").html(basketCount);
+				// search basket BarCode 
+				//alert($("#"+BarCode).html());
+				if($("#"+BarCode).html()==undefined){
+
+				// if not found
+				$("#basket").append('<tr id='+BarCode+' status="'+status+'"><td scope="row" >'+basketCount+'</td><td><span class="ProductName">'+ProductName+'</span> (<span class="Qty">1</span> <span class="Unit">'+Unit+'</span>)</td> <td ><span class="Price">'+Price+'</span> บาท(<span class="Total">'+Price+'</span> บาท)</td><td><a onClick="removeItem(this)"><i class="fa fa-remove" ></i></a></td></tr>');
+				} else {
+				  $("#"+BarCode).attr("status", status);
+				  $("#"+BarCode).find(".Qty").html(($("#"+BarCode).find(".Qty").html()*1)+1 );
+				  $("#"+BarCode).find(".Total").html(($("#"+BarCode).find(".Qty").html()*1)*($("#"+BarCode).find(".Price").html()*1) );
+				}
+				if(status="new") {
+					$("#orderCmd").html('สั่งสินค้า');
+					} else {
+					$("#orderCmd").html('คิดเงิน');
+					}
+					
+		}
+
+		function removeItem(o) {
+				var code = $(o).parent().parent().attr("id");
+				var table = Tbn;
+				$.post('http://'+window.location.hostname+':3030/removeItem', {table:table, code: code }, function( data ) {
+					
+				});
+				//alert($(o).parent().parent().attr("id"));
+
+			//$(o).parent().parent().remove();
+			//var basketCount = (($("#badge").html()*1)-1);
+			//$("#badge").html(basketCount);
+
+			
+		}
+
+		function getMoreProduct() {	
+					getProductItems((($("#pagging").val() *1) +1)  * $("#pageInum").val(), $("#pageInum").val(), code);
+					$("#pagging").val(($("#pagging").val()*1) +1);
+		}
+
+		function getProductItems( pagePoint, Inum ,code) {		    			
+
+			if(code==undefined){ var code="";}
+			   var data = {};
+			   data.optionPrice = $("#optionPrice").val();;
+			   data.BranchID = $("#BranchID").val();
+			   data.pagging = pagePoint;
+			   data.pageInum = Inum;
+			   data.tpl = "Card";
+			   data.ProductType= $("#ProductType option:selected").val();
+			   data.code = code;
+			   var body = {};
+			   body.data = data;
+               $.ajax({
+					type: 'POST',
+				    data:   JSON.stringify(body),
+					contentType: 'application/json',
+					url: 'http://'+window.location.hostname+':3030/getProductCard',
+					success: function(data) {
+					//alert(data);
+					$("#gridRow").append(data.content);
+					}
+	        });
+		}
+
+function queryProduct(o){
+			//alert(o.options[o.selectedIndex].value+ " "+ $.cookie("ProductType"));
+			if(o.options[o.selectedIndex].value != $.cookie("ProductType")){
+					$("#pagging").val(0);
+					$("#gridRow").html("");
+					code="";
+					getProductItems(  $("#pagging").val(),  $("#pageInum").val() , code );
+				}
+
+
+			$.cookie("ProductType", o.options[o.selectedIndex].value);
+
+
+	}
+
+ function orderNow() {
+					//alert($("#basket tr").length);
+					$.each( $("#basket tr"), function( k, o ) {
+						  //alert( $(o).find(".ProductName").html() );
+						  var data = {};
+						 // alert($(o).attr("status"));
+						  if($(o).attr("status")=='new'){
+						  data.table = "table"+Tbn;
+						  data.code = $(o).attr("id");
+						  data.food = $(o).find(".ProductName").html() ;
+						  data.qty = $(o).find(".Qty").html();
+						  data.unit = $(o).find(".Unit").html();
+						  data.price = $(o).find(".Price").html();
+						  socket.emit('ServerorderFood', data );
+						  $(o).attr("status", "old")
+						  }
+					});
+						
+						 if($("#orderCmd").html().indexOf("คิดเงิน")==0){
+								alert("Total := "+ Gtotal + "BTH");
+							 }
+							$("#orderCmd").html('คิดเงิน');
+
+ }
+
+		function checkStatus() {
+				if($('#icart').attr('class')!='fa fa-th-list'){
+				$('#icart').attr('class','fa fa-th-list');
+				$('#itxt').html('Shop');
+				$('#ctCart').css('display', 'none');
+				$('#ctShop').css('display', '');
+				} else {
+				$('#icart').attr('class','fa fa-shopping-cart');
+				$('#itxt').html('Cart');
+				$('#ctCart').css('display', '');
+				$('#ctShop').css('display', 'none');
+
+				}
+		}
+    </script>
+
+
+</body>
+
+</html>
